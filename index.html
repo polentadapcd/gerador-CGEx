@@ -11,7 +11,7 @@
   
   <style>
     :root {
-      --bg: #0a0a0c;          
+      --bg: #070709;          
       --card: #121215;        
       --accent-red: #d32f2f;  
       --text-main: #f0f0f5;   
@@ -32,6 +32,35 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* FUNDO COM GRADIENTES E BLUR SUTIL (VERMELHO E BRANCO) */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -150px;
+      left: -150px;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(211, 47, 47, 0.12) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -150px;
+      right: -150px;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(211, 47, 47, 0.09) 0%, rgba(255, 255, 255, 0.015) 50%, transparent 70%);
+      filter: blur(90px);
+      z-index: -1;
+      pointer-events: none;
     }
 
     .container {
@@ -39,6 +68,8 @@
       width: 100%;
       margin: 0 auto;
       flex: 1;
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
@@ -49,7 +80,13 @@
       letter-spacing: 1.5px;
       margin-top: 10px;
       margin-bottom: 25px;
-      text-shadow: 0 0 10px rgba(211, 47, 47, 0.25);
+      text-shadow: 0 0 12px rgba(211, 47, 47, 0.4);
+      animation: pulseTitle 3s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseTitle {
+      0% { text-shadow: 0 0 8px rgba(211, 47, 47, 0.2); }
+      100% { text-shadow: 0 0 18px rgba(211, 47, 47, 0.6); }
     }
 
     label {
@@ -62,6 +99,14 @@
       color: #e0e0ea;
     }
 
+    label.label-secao-principal {
+      font-size: 0.78rem;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     select, input, textarea {
       width: 100%;
       padding: 12px 14px;
@@ -72,13 +117,14 @@
       color: #ffffff;
       font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     select:focus, input:focus, textarea:focus {
       outline: none;
       border-color: var(--accent-red);
-      box-shadow: 0 0 8px rgba(211, 47, 47, 0.3);
+      box-shadow: 0 0 12px rgba(211, 47, 47, 0.4);
+      transform: translateY(-1px);
     }
 
     input[readonly] {
@@ -93,7 +139,153 @@
       font-style: italic;
     }
 
-    /* LINHA DIVISÓRIA ELEGANTE */
+    #campos-dinamicos {
+      animation: fadeInForm 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes fadeInForm {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .custom-dropdown {
+      position: relative;
+      margin-top: 6px;
+      width: 100%;
+    }
+
+    .dropdown-select-box {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: #16161a;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .dropdown-select-box:hover {
+      border-color: rgba(211, 47, 47, 0.6);
+      box-shadow: 0 0 10px rgba(211, 47, 47, 0.15);
+    }
+
+    .dropdown-select-box::after {
+      content: '▼';
+      font-size: 0.75rem;
+      color: var(--accent-red);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .custom-dropdown.active .dropdown-select-box {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 12px rgba(211, 47, 47, 0.35);
+    }
+
+    .custom-dropdown.active .dropdown-select-box::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-options-container {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background-color: #16161a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-height: 240px;
+      overflow-y: auto;
+      z-index: 999;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
+      
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .custom-dropdown.active .dropdown-options-container {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-option {
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      transition: background 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
+    }
+
+    .dropdown-option:hover {
+      background-color: rgba(211, 47, 47, 0.18);
+      color: #ffffff;
+      padding-left: 18px;
+    }
+
+    .dropdown-option.selected {
+      background-color: rgba(211, 47, 47, 0.25);
+      color: var(--accent-red);
+      font-weight: 600;
+    }
+
+    /* ESTRUTURA DO TIMESTAMP */
+    .timestamp-container {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      width: 100%;
+    }
+
+    .timestamp-box-tempo {
+      width: 68%;
+      background-color: #111114;
+      border: 1px solid var(--border);
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      padding: 10px 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .timestamp-container .custom-dropdown {
+      width: 32%;
+      margin-top: 0;
+    }
+
+    .timestamp-container .dropdown-select-box {
+      padding: 10px 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .timestamp-container .dropdown-option {
+      padding: 8px 10px;
+      font-size: 0.75rem;
+    }
+
     .divisor-secao {
       height: 1px;
       margin: 22px auto 10px auto;
@@ -123,6 +315,11 @@
     .patente-wrapper input {
       width: 100%;
       margin-top: 0;
+    }
+
+    .motivo-wrapper {
+      position: relative;
+      width: 100%;
     }
 
     .input-com-botao {
@@ -158,8 +355,8 @@
 
     .btn-adicionar-compacto:hover {
       opacity: 1;
-      transform: translateY(-50%) scale(1.15);
-      text-shadow: 0 0 6px rgba(211, 47, 47, 0.6);
+      transform: translateY(-50%) scale(1.25);
+      text-shadow: 0 0 8px rgba(211, 47, 47, 0.8);
     }
 
     .grupo-multiplo-container {
@@ -173,6 +370,18 @@
       display: flex;
       gap: 8px;
       align-items: center;
+      animation: slideInLine 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideInLine {
+      from {
+        opacity: 0;
+        transform: scale(0.97) translateY(-5px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
     .linha-multipla input {
@@ -195,8 +404,9 @@
     }
 
     .btn-remover-linha:hover {
-      background-color: rgba(255, 85, 85, 0.15);
+      background-color: rgba(255, 85, 85, 0.2);
       border-color: #ff5555;
+      transform: scale(1.05);
     }
 
     .suggestions-box {
@@ -207,17 +417,19 @@
       background-color: #15151a;
       border: 1px solid #333342;
       border-radius: 8px;
-      max-height: 200px;
+      max-height: 180px;
       overflow-y: auto;
       z-index: 9999;
       box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.85);
       display: none;
+      animation: fadeInForm 0.2s ease;
     }
 
     .suggestion-item {
       padding: 10px 12px;
       font-size: 0.88rem;
-      font-weight: 600;
+      font-weight: 500;
+      color: #e0e0ea;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
@@ -227,7 +439,8 @@
     }
 
     .suggestion-item:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
     }
 
     .suggestion-item .tag-badge {
@@ -252,35 +465,75 @@
       width: 100%;
       background-color: rgba(211, 47, 47, 0.25);
       color: #ffffff;
-      padding: 14px;
+      padding: 10px 12px;
       border: 1.5px solid #d32f2f;
       border-radius: 8px;
       font-family: 'Cinzel', serif;
-      font-size: 1rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      letter-spacing: 1px;
-      margin-top: 20px;
+      letter-spacing: 0.5px;
+      margin-top: 15px;
       cursor: pointer;
       backdrop-filter: blur(4px);
-      transition: all 0.2s ease;
+      white-space: nowrap;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn:hover {
-      background-color: rgba(211, 47, 47, 0.4);
-      box-shadow: 0 0 10px rgba(211, 47, 47, 0.3);
+      background-color: rgba(211, 47, 47, 0.45);
+      box-shadow: 0 0 15px rgba(211, 47, 47, 0.4);
+      transform: translateY(-2px);
     }
 
     .btn:active {
-      background-color: rgba(211, 47, 47, 0.6);
+      background-color: rgba(211, 47, 47, 0.75);
       transform: scale(0.98);
     }
 
     .preview-card {
       background-color: var(--card);
-      padding: 16px;
+      padding: 14px;
       border-radius: 10px;
-      margin-top: 25px;
+      margin-top: 20px;
       border: 1px solid var(--border);
+      transition: border-color 0.25s ease;
+    }
+
+    .preview-card label {
+      font-size: 0.78rem;
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+
+    .preview-card:hover {
+      border-color: rgba(211, 47, 47, 0.3);
+    }
+
+    .ticket-section-card {
+      background-color: rgba(18, 18, 21, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 16px;
+      transition: border-color 0.25s ease;
+    }
+
+    .ticket-section-card:hover {
+      border-color: rgba(211, 47, 47, 0.4);
+    }
+
+    .ticket-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-red);
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(211, 47, 47, 0.2);
+      padding-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     pre {
@@ -295,26 +548,79 @@
       border: 1px solid #1a1a20;
     }
 
+    #toast-notificacao {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background-color: #16161a;
+      color: #e0e0ea;
+      border: 1px solid rgba(211, 47, 47, 0.5);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: nowrap;
+      padding: 8px 18px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      z-index: 10000;
+      opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    #toast-notificacao.mostrar {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
     footer {
       text-align: center;
-      margin-top: 30px;
-      padding: 10px 0;
+      margin-top: 35px;
+      padding: 15px 0 10px 0;
       font-family: 'Cinzel', serif;
-      font-size: 0.8rem;
       color: var(--subtext);
-      letter-spacing: 1.2px;
-      opacity: 0.85;
+    }
+
+    .footer-org {
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      color: #d0d0df;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .footer-author {
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      opacity: 0.75;
     }
   </style>
 </head>
 <body>
 
+  <!-- ELEMENTO DO TOAST -->
+  <div id="toast-notificacao">Relatório copiado com sucesso!</div>
+
   <div class="container">
     <h1>CGEx - Emissor de Relatórios</h1>
 
-    <label for="modelo">Selecione o Modelo:</label>
-    <select id="modelo" onchange="carregarFormulario()">
-      <option value="advertencia">Advertência</option>
+    <label class="label-secao-principal">Selecione o Critério de Punição/Solicitação:</label>
+    <div class="custom-dropdown" id="dropdownModelo">
+      <div class="dropdown-select-box" id="dropdownSelected">Advertência</div>
+      <div class="dropdown-options-container" id="dropdownOptions">
+        <div class="dropdown-option selected" data-value="advertencia">Advertência</div>
+        <div class="dropdown-option" data-value="rebaixamento">Rebaixamento</div>
+        <div class="dropdown-option" data-value="ticket">Relatório de Ticket</div>
+        <div class="dropdown-option" data-value="exilio">Solicitação de Exílio</div>
+        <div class="dropdown-option" data-value="revogacao">Solicitação de Revogação</div>
+        <div class="dropdown-option" data-value="treino">Relatório - Patente de Treino</div>
+        <div class="dropdown-option" data-value="entregarPatente">Entregar Patente</div>
+      </div>
+    </div>
+
+    <select id="modelo" style="display: none;">
+      <option value="advertencia" selected>Advertência</option>
       <option value="rebaixamento">Rebaixamento</option>
       <option value="ticket">Relatório de Ticket</option>
       <option value="exilio">Solicitação de Exílio</option>
@@ -325,15 +631,21 @@
 
     <div id="campos-dinamicos"></div>
 
-    <button class="btn" onclick="gerarEcopiar()">Copiar Relatório</button>
+    <!-- SEÇÃO PADRÃO PARA MODELOS COMUNS -->
+    <div id="secao-padrao-acoes">
+      <button class="btn" onclick="gerarEcopiar()">Copiar Relatório</button>
 
-    <div class="preview-card">
-      <label>Pré-visualização:</label>
-      <pre id="preview">Selecione um modelo e preencha os campos...</pre>
+      <div class="preview-card">
+        <label>Pré-visualização:</label>
+        <pre id="preview">Selecione um modelo e preencha os campos...</pre>
+      </div>
     </div>
   </div>
 
-  <footer>© by Polenta</footer>
+  <footer>
+    <div class="footer-org">Corregedoria Geral do Exército</div>
+    <div class="footer-author">© by Polenta</div>
+  </footer>
 
   <script>
     const HIERARQUIA_PATENTES = [
@@ -363,9 +675,77 @@
       { tag: 'REC', nome: 'Recruta', cor: '#22c55e' }
     ];
 
-    function getTimestampAtual() {
-      const unix = Math.floor(Date.now() / 1000);
-      return `<t:${unix}:f>`;
+    const CRITERIOS_PUNICAO = {
+      advertencia: [
+        "Má conduta.",
+        "Falta de gramática.",
+        "Pedir free / treino.",
+        "Abreviação de palavras / gírias.",
+        "Abate de civis sem justificativa.",
+        "Uso de fardamento incorreto.",
+        "Uso de exploits.",
+        "Abuso de comando .sit (abuso de bugs que quebram o role play no EB).",
+        "Ausência fora de área AFK.",
+        "Música inapropriada dentro do quartel.",
+        "Prisão de forma abusiva (segurar a pessoa na algema por minutos sem justificativa plausível).",
+        "Atrapalhar o trabalho da CGEx (quando o militar do EB atrapalha a ação de integrante da CGEx em sala enquanto ele estiver resolvendo chamado, mesmo após avisos).",
+        "Abuso de poder.",
+        "Mencionar outro EB de forma sugestiva para angariar usuários.",
+        "Reincidência a punição anterior de exílio (2 advertências).",
+        "Ícone do executor na tela.",
+        "Assédio.",
+        "Discurso de ódio (de grau leve).",
+        "Uso de algema para quebrar o RP."
+      ],
+      rebaixamento: [
+        "Omissão ao entregar a patente do aprovado após seis horas do treino. (2 rebaixamentos)",
+        "Rebaixamento não autorizado pela CGEx (2 rebaixamentos), +1 rebaixamento para cada pessoa que ele rebaixou.",
+        "Aplicar treinamento incorretamente. (1 rebaixamento)",
+        "Aplicar recrutamento de forma errada. (1 rebaixamento)",
+        "Uso de comandos proibidos. (1 rebaixamento)",
+        "Acúmulo de 3 advertências. (1 rebaixamento)",
+        "Free patente. (3 rebaixamentos)",
+        "Free rank em excesso. (rebaixamento para recruta + exílio)",
+        "Reincidência no uso de exploits mesmo após advertência. (1 rebaixamento)",
+        "Descumprimento de ordens da CGEx para comparecimento em call de suporte / ticket (3 chamados +). (1 rebaixamento)",
+        "Divulgação de script. (2 rebaixamentos)",
+        "Script para obter vantagem em treinamento físico. (2 rebaixamentos)",
+        "Uso de executor para farm. (1 rebaixamento)",
+        "Uso de executor para voar. (1 rebaixamento)",
+        "Uso de executor para gestos +18. (1 rebaixamento)",
+        "Divulgação de família ou divisão não oficial em chats do EB. (2 rebaixamentos)",
+        "Discurso de ódio (de grau médio). (1 rebaixamento)"
+      ],
+      exilio: [
+        "Uso de scripts para obter vantagens ou prejudicar militares.",
+        "Abuso de bugs (bug exploit).",
+        "Difamação à nossa instituição.",
+        "Participar de ambientes que conspiram contra o EB.",
+        "Fraude / golpe.",
+        "RAID.",
+        "Conteúdo discriminatório / discurso de ódio.",
+        "Conteúdo pornográfico / gore.",
+        "Divulgação de outro EB.",
+        "Participar de outro EB com envolvimento no desenvolvimento dele.",
+        "Reincidência de punições anteriores mesmo após avisos.",
+        "Descumprimento de ordens da Administração Geral / Alto Escalão da Corregedoria (dependendo do caso).",
+        "Estar em servidores que conspiram contra o Delta, Gengar ou a Administração do Exército.",
+        "Free patente com +15 promoções.",
+        "Difamação contra o Delta/Gengar.",
+        "Divulgação de servidores não oficiais em chats do EB.",
+        "Discurso de ódio (de grau grave).",
+        "Divulgação de casa de apostas.",
+        "Char de apologia."
+      ],
+      entregarPatente: [
+        "Saiu da comunidade no Roblox."
+      ]
+    };
+
+    let formatoTimestampSelecionado = 'f';
+
+    function getUnixNow() {
+      return Math.floor(Date.now() / 1000);
     }
 
     function formatarComCrases(valor, comCrases = true) {
@@ -381,21 +761,54 @@
       return parseInt(numApenas, 10).toLocaleString('pt-BR');
     }
 
+    function formatarDataHoraVisual(unix, formato) {
+      const d = new Date(unix * 1000);
+      
+      const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+      const diasSemana = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
+
+      const dia = d.getDate();
+      const mesStr = meses[d.getMonth()];
+      const ano = d.getFullYear();
+      const hora = String(d.getHours()).padStart(2, '0');
+      const min = String(d.getMinutes()).padStart(2, '0');
+      const seg = String(d.getSeconds()).padStart(2, '0');
+      const diaSem = diasSemana[d.getDay()];
+
+      switch(formato) {
+        case 'f': return `${dia} de ${mesStr} de${ano} às ${hora}:${min}`;
+        case 'F': return `${diaSem},${dia} de ${mesStr} de${ano} às ${hora}:${min}`;
+        case 'd': return `${String(dia).padStart(2, '0')}/${String(d.getMonth()+1).padStart(2, '0')}/${ano}`;
+        case 'D': return `${dia} de ${mesStr} de${ano}`;
+        case 't': return `${hora}:${min}`;
+        case 'T': return `${hora}:${min}:${seg}`;
+        case 'R': return `há alguns segundos`;
+        default: return `${dia} de ${mesStr} de${ano} às ${hora}:${min}`;
+      }
+    }
+
+    setInterval(() => {
+      const elTempo = document.getElementById('tempoVisualDisplay');
+      if (elTempo) {
+        elTempo.innerText = formatarDataHoraVisual(getUnixNow(), formatoTimestampSelecionado);
+      }
+      atualizarPreview();
+    }, 1000);
+
     function getModelos() {
-      const currentTs = getTimestampAtual();
       return {
         advertencia: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
+          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true },
           { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
           { id: 'individuo', label: 'Indivíduo', labelPlural: 'Indivíduos', default: '@', multavel: true, isAt: true },
           { id: 'nickRoblox', label: 'Nick do Roblox', labelPlural: "Nick's do Roblox", placeholder: 'N/A.', multavel: true },
           { id: 'idRoblox', label: 'ID', labelPlural: "ID's", placeholder: 'N/A.', multavel: true },
           { id: 'motivo', label: 'Motivo(s)', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' },
           { id: 'observacoes', label: 'Observações', type: 'textarea', placeholder: 'N/A.' },
-          { id: 'dataHora', label: 'Data/Hora', default: currentTs }
+          { id: 'dataHora', label: 'Data/Hora', type: 'timestampSelector' }
         ],
         rebaixamento: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
+          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true },
           { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
           { id: 'individuo', label: 'Indivíduo', labelPlural: 'Indivíduos', default: '@', multavel: true, isAt: true },
           { id: 'nickRoblox', label: 'Nick do Roblox', labelPlural: "Nick's do Roblox", placeholder: 'N/A.', multavel: true },
@@ -404,53 +817,208 @@
           { id: 'antigaFuncao', label: 'Antiga Função (Tag e Nome)', type: 'patenteDupla' },
           { id: 'novaFuncao', label: 'Nova Função (Tag e Nome)', type: 'patenteDupla' },
           { id: 'observacoes', label: 'Observações', type: 'textarea', placeholder: 'N/A.' },
-          { id: 'dataHora', label: 'Data/Hora', default: currentTs }
+          { id: 'dataHora', label: 'Data/Hora', type: 'timestampSelector' }
         ],
-        ticket: [
-          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
-          { id: 'qtdTicket', label: 'Quantidade de ticket', placeholder: 'Ex: 1.234' }
-        ],
+        ticket: [],
         exilio: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
+          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true },
           { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
           { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
           { id: 'nickRoblox', label: 'Nick Roblox', labelPlural: "Nick's Roblox", placeholder: 'N/A.', multavel: true },
           { id: 'discordDuplo', label: 'Nick Discord (Menção > Opcional)', labelPlural: "Nick's Discord (Menção > Opcional)", type: 'discordDuploMultavel' },
           { id: 'idDiscord', label: 'ID Discord', labelPlural: "ID's Discord", placeholder: 'N/A.', multavel: true },
           { id: 'motivo', label: 'Motivo', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' },
-          { id: 'dataHora', label: 'Data-Hora', default: currentTs }
+          { id: 'dataHora', label: 'Data-Hora', type: 'timestampSelector' }
         ],
         revogacao: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true, temDivisorAbaixo: true },
+          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true, temDivisorAbaixo: true },
           { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
           { id: 'autorizacao', label: 'Autorização', placeholder: 'N/A.' },
           { id: 'nickRevogado', label: 'Nick do indivíduo a ser revogado', placeholder: 'N/A.' },
           { id: 'patentePerdida', label: 'Patente perdida (Tag e Nome)', type: 'patenteDupla' },
-          { id: 'motivo', label: 'Motivo', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' }
+          { id: 'motivo', label: 'Motivo', type: 'textarea', placeholder: 'Digite o motivo (obrigatório)...' }
         ],
         treino: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true, temDivisorAbaixo: true },
+          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true, temDivisorAbaixo: true },
           { id: 'nickInstrutor', label: 'Nick do Instrutor', placeholder: 'N/A.' },
           { id: 'nickAprovado', label: 'Nick do militar aprovado', placeholder: 'N/A.' },
           { id: 'patenteEntregue', label: 'Patente a ser entregue (Tag e Nome)', type: 'patenteDupla' },
           { id: 'comprovacoes', label: 'Comprovações/Justificativa', type: 'textarea', placeholder: 'N/A.' }
         ],
         entregarPatente: [
-          { id: 'atendente', label: 'Atendente', default: '@', lockAt: true, temDivisorAbaixo: true },
+          { id: 'atendente', label: 'Atendente', default: '@enex1s', readOnly: true, temDivisorAbaixo: true },
           { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
           { id: 'autorizacao', label: 'Autorização', placeholder: 'N/A.' },
           { id: 'nickIndividuo', label: 'Nick do indivíduo', placeholder: 'N/A.' },
           { id: 'patenteEntregar', label: 'Patente a entregar (Tag e Nome)', type: 'patenteDupla' },
           { id: 'tempoInatividade', label: 'Tempo de inatividade', placeholder: 'N/A.' },
-          { id: 'comprovacoes', label: 'Comprovações/Justificativa', type: 'textarea', placeholder: 'N/A.' }
+          { id: 'comprovacoes', label: 'Comprovações/Justificativa', type: 'textarea', isMotivo: true, placeholder: 'N/A.' }
         ]
       };
+    }
+
+    function mostrarToast(mensagem) {
+      const toast = document.getElementById('toast-notificacao');
+      toast.innerText = mensagem;
+      toast.classList.add('mostrar');
+
+      setTimeout(() => {
+        toast.classList.remove('mostrar');
+      }, 2500);
+    }
+
+    function inicializarDropdownCustomizado() {
+      const dropdown = document.getElementById('dropdownModelo');
+      const selectBox = document.getElementById('dropdownSelected');
+      const optionsContainer = document.getElementById('dropdownOptions');
+      const hiddenSelect = document.getElementById('modelo');
+      const optionsList = optionsContainer.querySelectorAll('.dropdown-option');
+
+      selectBox.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+
+      optionsList.forEach(option => {
+        option.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const value = option.getAttribute('data-value');
+          const text = option.innerText;
+
+          selectBox.innerText = text;
+          hiddenSelect.value = value;
+
+          optionsList.forEach(opt => opt.classList.remove('selected'));
+          option.classList.add('selected');
+
+          dropdown.classList.remove('active');
+
+          carregarFormulario();
+        });
+      });
+
+      window.addEventListener('click', () => {
+        dropdown.classList.remove('active');
+      });
+    }
+
+    function configurarSugestoesMotivo(textareaEl, boxAlvo, modeloTipo) {
+      function mostrar(termo) {
+        boxAlvo.innerHTML = '';
+        const termoLower = termo.toLowerCase().trim();
+
+        const listaBase = CRITERIOS_PUNICAO[modeloTipo];
+        if (!listaBase) {
+          boxAlvo.style.display = 'none';
+          return;
+        }
+
+        const filtradas = listaBase.filter(criterio => 
+          criterio.toLowerCase().includes(termoLower)
+        );
+
+        if (filtradas.length === 0) {
+          boxAlvo.style.display = 'none';
+          return;
+        }
+
+        filtradas.forEach(criterioCompleto => {
+          const div = document.createElement('div');
+          div.className = 'suggestion-item';
+          div.innerText = criterioCompleto;
+
+          div.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            let textoLimpo = criterioCompleto.replace(/\s*\([^)]*\)/g, '').trim();
+
+            textareaEl.value = textoLimpo;
+            boxAlvo.style.display = 'none';
+            atualizarPreview();
+          });
+
+          boxAlvo.appendChild(div);
+        });
+
+        boxAlvo.style.display = 'block';
+      }
+
+      textareaEl.addEventListener('input', function() {
+        mostrar(this.value);
+        atualizarPreview();
+      });
+
+      textareaEl.addEventListener('focus', function() {
+        mostrar(this.value);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!textareaEl.contains(e.target) && !boxAlvo.contains(e.target)) {
+          boxAlvo.style.display = 'none';
+        }
+      });
     }
 
     function carregarFormulario() {
       const tipo = document.getElementById('modelo').value;
       const container = document.getElementById('campos-dinamicos');
+      const secaoPadrao = document.getElementById('secao-padrao-acoes');
+      
+      container.style.animation = 'none';
+      container.offsetHeight; 
+      container.style.animation = null;
+
       container.innerHTML = '';
+
+      if (tipo === 'ticket') {
+        secaoPadrao.style.display = 'none';
+
+        const wrapperTicket = document.createElement('div');
+        wrapperTicket.innerHTML = `
+          <div class="ticket-section-card">
+            <div class="ticket-title">CONTROLE DE TICKET (CRESCENTE)</div>
+            <label>Solicitante:</label>
+            <input type="text" id="solicitante_crescente" value="@">
+
+            <label>Quantidade de ticket:</label>
+            <input type="text" id="qtdTicket_crescente" placeholder="Ex: 1.234">
+
+            <button class="btn" onclick="copiarTicket('crescente')">Copiar Relatório (Crescente)</button>
+
+            <div class="preview-card">
+              <label>Pré-visualização (Crescente):</label>
+              <pre id="preview_crescente">Selecione um modelo e preencha os campos...</pre>
+            </div>
+          </div>
+
+          <div class="ticket-section-card">
+            <div class="ticket-title">CONTROLE DE TICKET (DECRESCENTE)</div>
+            <label>Solicitante:</label>
+            <input type="text" id="solicitante_decrescente" value="@">
+
+            <label>Quantidade de ticket:</label>
+            <input type="text" id="qtdTicket_decrescente" placeholder="Ex: 1.234">
+
+            <button class="btn" onclick="copiarTicket('decrescente')">Copiar Relatório (Decrescente)</button>
+
+            <div class="preview-card">
+              <label>Pré-visualização (Decrescente):</label>
+              <pre id="preview_decrescente">Selecione um modelo e preencha os campos...</pre>
+            </div>
+          </div>
+        `;
+        container.appendChild(wrapperTicket);
+
+        setTimeout(() => {
+          configurarEventosTicket('crescente');
+          configurarEventosTicket('decrescente');
+          atualizarPreviewTicket('crescente');
+          atualizarPreviewTicket('decrescente');
+        }, 0);
+
+        return;
+      }
+
+      secaoPadrao.style.display = 'block';
 
       const modelos = getModelos();
 
@@ -460,7 +1028,65 @@
         label.innerText = campo.label + ':';
         container.appendChild(label);
 
-        if (campo.type === 'patenteDupla') {
+        if (campo.type === 'timestampSelector') {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'timestamp-container';
+
+          const timeDisplay = document.createElement('div');
+          timeDisplay.className = 'timestamp-box-tempo';
+          timeDisplay.id = 'tempoVisualDisplay';
+          timeDisplay.innerText = formatarDataHoraVisual(getUnixNow(), formatoTimestampSelecionado);
+
+          const dropTs = document.createElement('div');
+          dropTs.className = 'custom-dropdown';
+          dropTs.id = 'dropTimestampFormat';
+
+          dropTs.innerHTML = `
+            <div class="dropdown-select-box" id="tsSelectedText">Data/Hora</div>
+            <div class="dropdown-options-container" id="tsOptionsList">
+              <div class="dropdown-option selected" data-ts="f">Data/Hora</div>
+              <div class="dropdown-option" data-ts="F">Completa</div>
+              <div class="dropdown-option" data-ts="d">Data Curta</div>
+              <div class="dropdown-option" data-ts="D">Data Extensa</div>
+              <div class="dropdown-option" data-ts="t">Hora Curta</div>
+              <div class="dropdown-option" data-ts="T">Hora Completa</div>
+              <div class="dropdown-option" data-ts="R">Relativo</div>
+            </div>
+          `;
+
+          wrapper.appendChild(timeDisplay);
+          wrapper.appendChild(dropTs);
+          container.appendChild(wrapper);
+
+          setTimeout(() => {
+            const box = dropTs.querySelector('.dropdown-select-box');
+            const opts = dropTs.querySelectorAll('.dropdown-option');
+
+            box.addEventListener('click', (e) => {
+              e.stopPropagation();
+              dropTs.classList.toggle('active');
+            });
+
+            opts.forEach(opt => {
+              opt.addEventListener('click', (e) => {
+                e.stopPropagation();
+                formatoTimestampSelecionado = opt.getAttribute('data-ts');
+                box.innerText = opt.innerText;
+
+                opts.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+
+                dropTs.classList.remove('active');
+                
+                timeDisplay.innerText = formatarDataHoraVisual(getUnixNow(), formatoTimestampSelecionado);
+                atualizarPreview();
+              });
+            });
+
+            window.addEventListener('click', () => dropTs.classList.remove('active'));
+          }, 0);
+
+        } else if (campo.type === 'patenteDupla') {
           const wrapper = document.createElement('div');
           wrapper.className = 'patente-dupla-container';
 
@@ -551,13 +1177,35 @@
           container.appendChild(grupo);
 
         } else if (campo.type === 'textarea') {
-          const textarea = document.createElement('textarea');
-          textarea.id = campo.id;
-          if (campo.isMotivo) textarea.className = 'motivo-input';
-          if (campo.default) textarea.value = campo.default;
-          if (campo.placeholder) textarea.placeholder = campo.placeholder;
-          textarea.addEventListener('input', atualizarPreview);
-          container.appendChild(textarea);
+          if (campo.isMotivo && ['advertencia', 'rebaixamento', 'exilio', 'entregarPatente'].includes(tipo)) {
+            const motivoWrap = document.createElement('div');
+            motivoWrap.className = 'motivo-wrapper';
+
+            const boxMotivoSug = document.createElement('div');
+            boxMotivoSug.className = 'suggestions-box';
+
+            const textarea = document.createElement('textarea');
+            textarea.id = campo.id;
+            textarea.className = 'motivo-input';
+            if (campo.default) textarea.value = campo.default;
+            if (campo.placeholder) textarea.placeholder = campo.placeholder;
+            textarea.autocomplete = 'off';
+
+            motivoWrap.appendChild(boxMotivoSug);
+            motivoWrap.appendChild(textarea);
+            container.appendChild(motivoWrap);
+
+            configurarSugestoesMotivo(textarea, boxMotivoSug, tipo);
+
+          } else {
+            const textarea = document.createElement('textarea');
+            textarea.id = campo.id;
+            if (campo.isMotivo) textarea.className = 'motivo-input';
+            if (campo.default) textarea.value = campo.default;
+            if (campo.placeholder) textarea.placeholder = campo.placeholder;
+            textarea.addEventListener('input', atualizarPreview);
+            container.appendChild(textarea);
+          }
 
         } else if (campo.multavel) {
           const grupo = document.createElement('div');
@@ -616,12 +1264,6 @@
 
           if (campo.readOnly) {
             input.readOnly = true;
-          } else if (campo.id === 'qtdTicket') {
-            input.addEventListener('input', function() {
-              const numFormatado = formatarNumeroMilhar(this.value);
-              this.value = numFormatado;
-              atualizarPreview();
-            });
           } else if (campo.lockAt) {
             input.addEventListener('keydown', function(e) {
               if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
@@ -649,6 +1291,73 @@
       });
 
       atualizarPreview();
+    }
+
+    function configurarEventosTicket(modo) {
+      const sol = document.getElementById('solicitante_' + modo);
+      const qtd = document.getElementById('qtdTicket_' + modo);
+
+      if (sol) {
+        sol.addEventListener('keydown', function(e) {
+          if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
+            e.preventDefault();
+          }
+        });
+        sol.addEventListener('input', function() {
+          if (!this.value.startsWith('@')) {
+            this.value = '@' + this.value.replace(/@/g, '');
+          }
+          atualizarPreviewTicket(modo);
+        });
+      }
+
+      if (qtd) {
+        qtd.addEventListener('input', function() {
+          this.value = formatarNumeroMilhar(this.value);
+          atualizarPreviewTicket(modo);
+        });
+      }
+    }
+
+    function montarTextoTicket(modo) {
+      const sol = getVal('solicitante_' + modo);
+      const valQtd = getVal('qtdTicket_' + modo);
+
+      return `:CGEx: **RELATÓRIO DE TICKET
+👤 Solicitante: ${sol || '@'}
+🔢 Quantidade de ticket: ${valQtd ? formatarNumeroMilhar(valQtd) : 'N/A.'}**`;
+    }
+
+    function atualizarPreviewTicket(modo) {
+      const prev = document.getElementById('preview_' + modo);
+      if (prev) {
+        prev.innerText = montarTextoTicket(modo);
+      }
+    }
+
+    function copiarTicket(modo) {
+      const solEl = document.getElementById('solicitante_' + modo);
+      const qtdEl = document.getElementById('qtdTicket_' + modo);
+
+      const texto = montarTextoTicket(modo);
+
+      navigator.clipboard.writeText(texto).then(() => {
+        mostrarToast(`Relatório (${modo === 'crescente' ? 'Crescente' : 'Decrescente'}) copiado com sucesso!`);
+
+        if (solEl) solEl.value = '@';
+
+        if (qtdEl) {
+          let valNum = parseInt(qtdEl.value.replace(/\D/g, ''), 10);
+          if (!isNaN(valNum)) {
+            let novoValor = modo === 'crescente' ? valNum + 1 : valNum - 1;
+            if (novoValor < 0) novoValor = 0;
+            qtdEl.value = formatarNumeroMilhar(novoValor.toString());
+          }
+        }
+        atualizarPreviewTicket(modo);
+      }).catch(err => {
+        mostrarToast('Erro ao copiar relatório.');
+      });
     }
 
     function adicionarLinhaDiscordDuplo() {
@@ -694,9 +1403,12 @@
       btnRemover.className = 'btn-remover-linha';
       btnRemover.innerText = '✕';
       btnRemover.onclick = function() {
-        novaLinha.remove();
-        atualizarRotulo('discordDuplo');
-        atualizarPreview();
+        novaLinha.style.animation = 'slideInLine 0.2s reverse ease';
+        setTimeout(() => {
+          novaLinha.remove();
+          atualizarRotulo('discordDuplo');
+          atualizarPreview();
+        }, 180);
       };
 
       novaLinha.appendChild(wrapper);
@@ -742,9 +1454,12 @@
       btnRemover.className = 'btn-remover-linha';
       btnRemover.innerText = '✕';
       btnRemover.onclick = function() {
-        novaLinha.remove();
-        atualizarRotulo(idCampo);
-        atualizarPreview();
+        novaLinha.style.animation = 'slideInLine 0.2s reverse ease';
+        setTimeout(() => {
+          novaLinha.remove();
+          atualizarRotulo(idCampo);
+          atualizarPreview();
+        }, 180);
       };
 
       const wrap = document.createElement('div');
@@ -826,7 +1541,6 @@
 
         let listaBase = HIERARQUIA_PATENTES;
 
-        // REGRA DE REBAIXAMENTO: Filtrar apenas patentes estritamente ABAIXO da Antiga Função
         if (document.getElementById('modelo').value === 'rebaixamento' && idCampo === 'novaFuncao') {
           const antigaTag = getVal('antigaFuncao_tag').trim().toLowerCase();
           const antigaNome = getVal('antigaFuncao_nome').trim().toLowerCase();
@@ -925,8 +1639,14 @@
       return '\n' + filtrados.map(v => comCrases ? `\`${v}\`` : v).join('\n');
     }
 
+    function getDataHoraFormatadaDiscord() {
+      const ts = getUnixNow();
+      return `<t:${ts}:${formatoTimestampSelecionado}>`;
+    }
+
     function montarTexto() {
       const tipo = document.getElementById('modelo').value;
+      const dataHoraTag = getDataHoraFormatadaDiscord();
       
       if (tipo === 'advertencia') {
         const individuos = getValoresMultiplos('individuo');
@@ -944,7 +1664,7 @@
 • | Motivo(s): ${getVal('motivo').trim()}
 • | Observações: ${getVal('observacoes') || 'N/A.'}
 ♤ ——————————————— ♤
-• | Data/Hora: ${getVal('dataHora')}
+• | Data/Hora: ${dataHoraTag}
 • | Comprovações:**`;
       }
       
@@ -967,15 +1687,8 @@
 
 • | Observações: ${getVal('observacoes') || 'N/A.'}
 ♤ ——————————————— ♤
-• | Data/Hora: ${getVal('dataHora')}
+• | Data/Hora: ${dataHoraTag}
 • | Comprovações:**`;
-      }
-
-      if (tipo === 'ticket') {
-        const valQtd = getVal('qtdTicket');
-        return `:CGEx: **RELATÓRIO DE TICKET
-👤 Solicitante: ${getVal('solicitante')}
-🔢 Quantidade de ticket: ${valQtd ? formatarNumeroMilhar(valQtd) : 'N/A.'}**`;
       }
 
       if (tipo === 'exilio') {
@@ -999,7 +1712,7 @@
 • | ${idsDiscord.length > 1 ? "ID's Discord" : "Id Discord"}: ${textoIdsDiscord}
 • | Motivo: ${getVal('motivo').trim()}
 ———————————————
-• | Data-Hora: ${getVal('dataHora')}
+• | Data-Hora: ${dataHoraTag}
 • | Comprovações:**`;
       }
 
@@ -1032,7 +1745,7 @@
 
 🧾・Patente a ser entregue: ${getPatenteFormatada('patenteEntregue')}
 
-📎・Comprovações/Justificativa:** ${getVal('comprovacoes') || 'N/A.'}`;
+📎・Comprovações/Justificativa: ${getVal('comprovacoes') || 'N/A.'}**`;
       }
 
       if (tipo === 'entregarPatente') {
@@ -1050,12 +1763,13 @@
 
 ⌛ ・Tempo de inatividade: ${getVal('tempoInatividade') || 'N/A.'}
 
-📎・Comprovações/Justificativa: **${getVal('comprovacoes') || 'N/A.'}**`;
+📎・Comprovações/Justificativa: ${getVal('comprovacoes') || 'N/A.'}**`;
       }
     }
 
     function atualizarPreview() {
-      document.getElementById('preview').innerText = montarTexto();
+      const prev = document.getElementById('preview');
+      if (prev) prev.innerText = montarTexto();
     }
 
     function gerarEcopiar() {
@@ -1063,7 +1777,7 @@
       const motivoEl = document.getElementById('motivo');
 
       if (motivoEl && !motivoEl.value.trim()) {
-        alert('⚠️ Preencha o campo Motivo! Ele é obrigatório para gerar este relatório.');
+        mostrarToast('⚠️ Preencha o campo Motivo!');
         motivoEl.focus();
         return;
       }
@@ -1071,29 +1785,16 @@
       const texto = montarTexto();
 
       navigator.clipboard.writeText(texto).then(() => {
-        alert('✅ Relatório copiado com sucesso!');
-
-        if (tipo === 'ticket') {
-          const solicitanteEl = document.getElementById('solicitante');
-          const qtdEl = document.getElementById('qtdTicket');
-
-          if (solicitanteEl) solicitanteEl.value = '@';
-
-          if (qtdEl) {
-            let valNum = parseInt(qtdEl.value.replace(/\D/g, ''), 10);
-            if (!isNaN(valNum)) {
-              qtdEl.value = formatarNumeroMilhar((valNum + 1).toString());
-            }
-          }
-          atualizarPreview();
-        }
+        mostrarToast('Relatório copiado com sucesso!');
       }).catch(err => {
-        alert('Erro ao copiar. Copie manualmente na pré-visualização.');
+        mostrarToast('Erro ao copiar relatório.');
       });
     }
 
-    window.onload = carregarFormulario;
+    window.onload = function() {
+      inicializarDropdownCustomizado();
+      carregarFormulario();
+    };
   </script>
 </body>
 </html>
-
