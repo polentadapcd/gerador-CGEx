@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CGEx - Emissor de Relatórios</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0a0a0c;          
+      --card: #121215;        
+      --accent-red: #d32f2f;  
+      --text-main: #f0f0f5;   
+      --subtext: #888899;
+      --border: #22222a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      margin: 0;
+      padding: 20px 15px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    h1 {
+      font-family: 'Cinzel Decorative', serif;
+      text-align: center;
+      color: var(--accent-red);
+      font-size: 1.5rem;
+      letter-spacing: 1.5px;
+      margin-top: 10px;
+      margin-bottom: 25px;
+      text-shadow: 0 0 10px rgba(211, 47, 47, 0.25);
+    }
+
+    label {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      display: block;
+      margin-top: 15px;
+      font-size: 0.85rem;
+      letter-spacing: 0.8px;
+      color: #e0e0ea;
+    }
+
+    select, input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: #16161a;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-red);
+      box-shadow: 0 0 8px rgba(211, 47, 47, 0.3);
+    }
+
+    input[readonly] {
+      background-color: #111114;
+      color: #aaaaaa;
+      cursor: not-allowed;
+      border-color: #1c1c24;
+    }
+
+    ::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+      font-style: italic;
+    }
+
+    /* LINHA DIVISÓRIA ELEGANTE */
+    .divisor-secao {
+      height: 1px;
+      margin: 22px auto 10px auto;
+      width: 85%;
+      background: linear-gradient(90deg, transparent, rgba(211, 47, 47, 0.6), transparent);
+      box-shadow: 0 0 8px rgba(211, 47, 47, 0.3);
+    }
+
+    .patente-dupla-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .patente-wrapper {
+      position: relative;
+    }
+
+    .patente-wrapper.tag-wrap {
+      width: 35%;
+    }
+
+    .patente-wrapper.nome-wrap {
+      width: 65%;
+    }
+
+    .patente-wrapper input {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    .input-com-botao {
+      position: relative;
+      margin-top: 6px;
+    }
+
+    .input-com-botao input {
+      margin-top: 0;
+      padding-right: 36px;
+    }
+
+    .btn-adicionar-compacto {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      color: var(--accent-red);
+      border: none;
+      width: 24px;
+      height: 24px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: all 0.2s ease;
+    }
+
+    .btn-adicionar-compacto:hover {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.15);
+      text-shadow: 0 0 6px rgba(211, 47, 47, 0.6);
+    }
+
+    .grupo-multiplo-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .linha-multipla {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .linha-multipla input {
+      margin-top: 0;
+    }
+
+    .btn-remover-linha {
+      background-color: transparent;
+      color: #ff5555;
+      border: 1px solid rgba(255, 85, 85, 0.3);
+      border-radius: 6px;
+      width: 36px;
+      height: 42px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-remover-linha:hover {
+      background-color: rgba(255, 85, 85, 0.15);
+      border-color: #ff5555;
+    }
+
+    .suggestions-box {
+      position: absolute;
+      bottom: calc(100% + 5px);
+      left: 0;
+      right: 0;
+      background-color: #15151a;
+      border: 1px solid #333342;
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 9999;
+      box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.85);
+      display: none;
+    }
+
+    .suggestion-item {
+      padding: 10px 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      transition: background 0.15s ease;
+    }
+
+    .suggestion-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .suggestion-item .tag-badge {
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.5);
+      margin-left: 8px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    textarea.motivo-input {
+      min-height: 50px;
+      height: 50px;
+    }
+
+    .btn {
+      width: 100%;
+      background-color: rgba(211, 47, 47, 0.25);
+      color: #ffffff;
+      padding: 14px;
+      border: 1.5px solid #d32f2f;
+      border-radius: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-top: 20px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: rgba(211, 47, 47, 0.4);
+      box-shadow: 0 0 10px rgba(211, 47, 47, 0.3);
+    }
+
+    .btn:active {
+      background-color: rgba(211, 47, 47, 0.6);
+      transform: scale(0.98);
+    }
+
+    .preview-card {
+      background-color: var(--card);
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 25px;
+      border: 1px solid var(--border);
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background-color: #0b0b0d;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: 'Courier New', Courier, monospace;
+      color: #d1d1e0;
+      font-size: 0.85rem;
+      border: 1px solid #1a1a20;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 10px 0;
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      color: var(--subtext);
+      letter-spacing: 1.2px;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>CGEx - Emissor de Relatórios</h1>
+
+    <label for="modelo">Selecione o Modelo:</label>
+    <select id="modelo" onchange="carregarFormulario()">
+      <option value="advertencia">Advertência</option>
+      <option value="rebaixamento">Rebaixamento</option>
+      <option value="ticket">Relatório de Ticket</option>
+      <option value="exilio">Solicitação de Exílio</option>
+      <option value="revogacao">Solicitação de Revogação</option>
+      <option value="treino">Relatório - Patente de Treino</option>
+      <option value="entregarPatente">Entregar Patente</option>
+    </select>
+
+    <div id="campos-dinamicos"></div>
+
+    <button class="btn" onclick="gerarEcopiar()">Copiar Relatório</button>
+
+    <div class="preview-card">
+      <label>Pré-visualização:</label>
+      <pre id="preview">Selecione um modelo e preencha os campos...</pre>
+    </div>
+  </div>
+
+  <footer>© by Polenta</footer>
+
+  <script>
+    const HIERARQUIA_PATENTES = [
+      { tag: 'SCR', nome: 'Sub Criador', cor: '#7289da' },
+      { tag: 'MAR', nome: 'Marechal', cor: '#d49b0a' },
+      { tag: 'V PRES', nome: 'Vice-Presidente', cor: '#b48608' },
+      { tag: 'ER', nome: 'Elite Real', cor: '#f97316' },
+      { tag: 'ES', nome: 'Elite Secreta', cor: '#f97316' },
+      { tag: 'EM', nome: 'Elite Militar', cor: '#f97316' },
+      { tag: 'GEN EX', nome: 'General de Exército', cor: '#d97706' },
+      { tag: 'GEN DV', nome: 'General de Divisão', cor: '#d97706' },
+      { tag: 'GEN BDA', nome: 'General de Brigada', cor: '#d97706' },
+      { tag: 'CEL', nome: 'Coronel', cor: '#eab308' },
+      { tag: 'TEN-CEL', nome: 'Tenente Coronel', cor: '#eab308' },
+      { tag: 'MAJ', nome: 'Major', cor: '#eab308' },
+      { tag: 'CAP', nome: 'Capitão', cor: '#f59e0b' },
+      { tag: '1º TEN', nome: 'Primeiro Tenente', cor: '#a855f7' },
+      { tag: '2º TEN', nome: 'Segundo Tenente', cor: '#a855f7' },
+      { tag: 'AAO', nome: 'Aspirante a Oficial', cor: '#a855f7' },
+      { tag: 'CT', nome: 'Cadete', cor: '#22c55e' },
+      { tag: 'ST', nome: 'Subtenente', cor: '#22c55e' },
+      { tag: '1º SGT', nome: 'Primeiro Sargento', cor: '#22c55e' },
+      { tag: '2º SGT', nome: 'Segundo Sargento', cor: '#22c55e' },
+      { tag: '3º SGT', nome: 'Terceiro Sargento', cor: '#22c55e' },
+      { tag: 'CB', nome: 'Cabo', cor: '#22c55e' },
+      { tag: 'SLD', nome: 'Soldado', cor: '#22c55e' },
+      { tag: 'REC', nome: 'Recruta', cor: '#22c55e' }
+    ];
+
+    function getTimestampAtual() {
+      const unix = Math.floor(Date.now() / 1000);
+      return `<t:${unix}:f>`;
+    }
+
+    function formatarComCrases(valor, comCrases = true) {
+      const v = valor ? valor.trim() : '';
+      if (!v || v === 'N/A.') return 'N/A.';
+      return comCrases ? `\`${v}\`` : v;
+    }
+
+    function formatarNumeroMilhar(valStr) {
+      if (!valStr) return '';
+      const numApenas = valStr.toString().replace(/\D/g, '');
+      if (!numApenas) return valStr;
+      return parseInt(numApenas, 10).toLocaleString('pt-BR');
+    }
+
+    function getModelos() {
+      const currentTs = getTimestampAtual();
+      return {
+        advertencia: [
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
+          { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
+          { id: 'individuo', label: 'Indivíduo', labelPlural: 'Indivíduos', default: '@', multavel: true, isAt: true },
+          { id: 'nickRoblox', label: 'Nick do Roblox', labelPlural: "Nick's do Roblox", placeholder: 'N/A.', multavel: true },
+          { id: 'idRoblox', label: 'ID', labelPlural: "ID's", placeholder: 'N/A.', multavel: true },
+          { id: 'motivo', label: 'Motivo(s)', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' },
+          { id: 'observacoes', label: 'Observações', type: 'textarea', placeholder: 'N/A.' },
+          { id: 'dataHora', label: 'Data/Hora', default: currentTs }
+        ],
+        rebaixamento: [
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
+          { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
+          { id: 'individuo', label: 'Indivíduo', labelPlural: 'Indivíduos', default: '@', multavel: true, isAt: true },
+          { id: 'nickRoblox', label: 'Nick do Roblox', labelPlural: "Nick's do Roblox", placeholder: 'N/A.', multavel: true },
+          { id: 'idRoblox', label: 'ID', labelPlural: "ID's", placeholder: 'N/A.', multavel: true },
+          { id: 'motivo', label: 'Motivo(s)', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' },
+          { id: 'antigaFuncao', label: 'Antiga Função (Tag e Nome)', type: 'patenteDupla' },
+          { id: 'novaFuncao', label: 'Nova Função (Tag e Nome)', type: 'patenteDupla' },
+          { id: 'observacoes', label: 'Observações', type: 'textarea', placeholder: 'N/A.' },
+          { id: 'dataHora', label: 'Data/Hora', default: currentTs }
+        ],
+        ticket: [
+          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
+          { id: 'qtdTicket', label: 'Quantidade de ticket', placeholder: 'Ex: 1.234' }
+        ],
+        exilio: [
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
+          { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
+          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
+          { id: 'nickRoblox', label: 'Nick Roblox', labelPlural: "Nick's Roblox", placeholder: 'N/A.', multavel: true },
+          { id: 'discordDuplo', label: 'Nick Discord (Menção > Opcional)', labelPlural: "Nick's Discord (Menção > Opcional)", type: 'discordDuploMultavel' },
+          { id: 'idDiscord', label: 'ID Discord', labelPlural: "ID's Discord", placeholder: 'N/A.', multavel: true },
+          { id: 'motivo', label: 'Motivo', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' },
+          { id: 'dataHora', label: 'Data-Hora', default: currentTs }
+        ],
+        revogacao: [
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true, temDivisorAbaixo: true },
+          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
+          { id: 'autorizacao', label: 'Autorização', placeholder: 'N/A.' },
+          { id: 'nickRevogado', label: 'Nick do indivíduo a ser revogado', placeholder: 'N/A.' },
+          { id: 'patentePerdida', label: 'Patente perdida (Tag e Nome)', type: 'patenteDupla' },
+          { id: 'motivo', label: 'Motivo', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' }
+        ],
+        treino: [
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true, temDivisorAbaixo: true },
+          { id: 'nickInstrutor', label: 'Nick do Instrutor', placeholder: 'N/A.' },
+          { id: 'nickAprovado', label: 'Nick do militar aprovado', placeholder: 'N/A.' },
+          { id: 'patenteEntregue', label: 'Patente a ser entregue (Tag e Nome)', type: 'patenteDupla' },
+          { id: 'comprovacoes', label: 'Comprovações/Justificativa', type: 'textarea', placeholder: 'N/A.' }
+        ],
+        entregarPatente: [
+          { id: 'atendente', label: 'Atendente', default: '@', lockAt: true, temDivisorAbaixo: true },
+          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
+          { id: 'autorizacao', label: 'Autorização', placeholder: 'N/A.' },
+          { id: 'nickIndividuo', label: 'Nick do indivíduo', placeholder: 'N/A.' },
+          { id: 'patenteEntregar', label: 'Patente a entregar (Tag e Nome)', type: 'patenteDupla' },
+          { id: 'tempoInatividade', label: 'Tempo de inatividade', placeholder: 'N/A.' },
+          { id: 'comprovacoes', label: 'Comprovações/Justificativa', type: 'textarea', placeholder: 'N/A.' }
+        ]
+      };
+    }
+
+    function carregarFormulario() {
+      const tipo = document.getElementById('modelo').value;
+      const container = document.getElementById('campos-dinamicos');
+      container.innerHTML = '';
+
+      const modelos = getModelos();
+
+      modelos[tipo].forEach(campo => {
+        const label = document.createElement('label');
+        label.id = 'label_' + campo.id;
+        label.innerText = campo.label + ':';
+        container.appendChild(label);
+
+        if (campo.type === 'patenteDupla') {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'patente-dupla-container';
+
+          const tagWrap = document.createElement('div');
+          tagWrap.className = 'patente-wrapper tag-wrap';
+          const tagInput = document.createElement('input');
+          tagInput.type = 'text';
+          tagInput.id = campo.id + '_tag';
+          tagInput.placeholder = '[TAG]...';
+          tagInput.autocomplete = 'off';
+          const boxTag = document.createElement('div');
+          boxTag.className = 'suggestions-box';
+          tagWrap.appendChild(tagInput);
+          tagWrap.appendChild(boxTag);
+
+          const nomeWrap = document.createElement('div');
+          nomeWrap.className = 'patente-wrapper nome-wrap';
+          const nomeInput = document.createElement('input');
+          nomeInput.type = 'text';
+          nomeInput.id = campo.id + '_nome';
+          nomeInput.placeholder = 'Patente...';
+          nomeInput.autocomplete = 'off';
+          const boxNome = document.createElement('div');
+          boxNome.className = 'suggestions-box';
+          nomeWrap.appendChild(nomeInput);
+          nomeWrap.appendChild(boxNome);
+
+          wrapper.appendChild(tagWrap);
+          wrapper.appendChild(nomeWrap);
+          container.appendChild(wrapper);
+
+          configurarSugestoes(tagInput, nomeInput, boxTag, boxNome, campo.id);
+
+        } else if (campo.type === 'discordDuploMultavel') {
+          const grupo = document.createElement('div');
+          grupo.className = 'grupo-multiplo-container';
+          grupo.id = 'grupo_' + campo.id;
+
+          const linha1 = document.createElement('div');
+          linha1.className = 'linha-multipla';
+
+          const wrapper = document.createElement('div');
+          wrapper.className = 'patente-dupla-container';
+          wrapper.style.flex = '1';
+
+          const mencaoInput = document.createElement('input');
+          mencaoInput.type = 'text';
+          mencaoInput.id = 'exilioDiscordMencao_0';
+          mencaoInput.value = '@';
+          mencaoInput.className = 'tag-input';
+          mencaoInput.addEventListener('keydown', function(e) {
+            if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
+              e.preventDefault();
+            }
+          });
+          mencaoInput.addEventListener('input', function() {
+            if (!this.value.startsWith('@')) {
+              this.value = '@' + this.value.replace(/@/g, '');
+            }
+            atualizarPreview();
+          });
+
+          const opcionalInput = document.createElement('input');
+          opcionalInput.type = 'text';
+          opcionalInput.id = 'exilioDiscordOpcional_0';
+          opcionalInput.placeholder = 'Opcional';
+          opcionalInput.className = 'nome-input';
+          opcionalInput.addEventListener('input', atualizarPreview);
+
+          const btnAdd = document.createElement('button');
+          btnAdd.type = 'button';
+          btnAdd.className = 'btn-adicionar-compacto';
+          btnAdd.innerText = '+';
+          btnAdd.style.position = 'static';
+          btnAdd.style.transform = 'none';
+          btnAdd.style.height = '42px';
+          btnAdd.style.width = '30px';
+          btnAdd.onclick = function() {
+            adicionarLinhaDiscordDuplo();
+          };
+
+          wrapper.appendChild(mencaoInput);
+          wrapper.appendChild(opcionalInput);
+
+          linha1.appendChild(wrapper);
+          linha1.appendChild(btnAdd);
+          grupo.appendChild(linha1);
+          container.appendChild(grupo);
+
+        } else if (campo.type === 'textarea') {
+          const textarea = document.createElement('textarea');
+          textarea.id = campo.id;
+          if (campo.isMotivo) textarea.className = 'motivo-input';
+          if (campo.default) textarea.value = campo.default;
+          if (campo.placeholder) textarea.placeholder = campo.placeholder;
+          textarea.addEventListener('input', atualizarPreview);
+          container.appendChild(textarea);
+
+        } else if (campo.multavel) {
+          const grupo = document.createElement('div');
+          grupo.className = 'grupo-multiplo-container';
+          grupo.id = 'grupo_' + campo.id;
+
+          const linha1 = document.createElement('div');
+          linha1.className = 'linha-multipla';
+
+          const input1 = document.createElement('input');
+          input1.type = 'text';
+          input1.id = campo.id + '_0';
+          if (campo.default) input1.value = campo.default;
+          if (campo.placeholder) input1.placeholder = campo.placeholder;
+
+          if (campo.isAt) {
+            input1.addEventListener('keydown', function(e) {
+              if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
+                e.preventDefault();
+              }
+            });
+            input1.addEventListener('input', function() {
+              if (!this.value.startsWith('@')) {
+                this.value = '@' + this.value.replace(/@/g, '');
+              }
+              atualizarPreview();
+            });
+          } else {
+            input1.addEventListener('input', atualizarPreview);
+          }
+
+          const btnAdd = document.createElement('button');
+          btnAdd.type = 'button';
+          btnAdd.className = 'btn-adicionar-compacto';
+          btnAdd.innerText = '+';
+          btnAdd.onclick = function() {
+            adicionarLinhaTotalmenteIndependente(campo.id, campo.placeholder, campo.isAt);
+          };
+
+          const wrapInput = document.createElement('div');
+          wrapInput.className = 'input-com-botao';
+          wrapInput.style.flex = '1';
+          wrapInput.appendChild(input1);
+          wrapInput.appendChild(btnAdd);
+
+          linha1.appendChild(wrapInput);
+          grupo.appendChild(linha1);
+          container.appendChild(grupo);
+
+        } else {
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.id = campo.id;
+          if (campo.default) input.value = campo.default;
+          if (campo.placeholder) input.placeholder = campo.placeholder;
+
+          if (campo.readOnly) {
+            input.readOnly = true;
+          } else if (campo.id === 'qtdTicket') {
+            input.addEventListener('input', function() {
+              const numFormatado = formatarNumeroMilhar(this.value);
+              this.value = numFormatado;
+              atualizarPreview();
+            });
+          } else if (campo.lockAt) {
+            input.addEventListener('keydown', function(e) {
+              if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
+                e.preventDefault();
+              }
+            });
+            input.addEventListener('input', function() {
+              if (!this.value.startsWith('@')) {
+                this.value = '@' + this.value.replace(/@/g, '');
+              }
+              atualizarPreview();
+            });
+          } else {
+            input.addEventListener('input', atualizarPreview);
+          }
+
+          container.appendChild(input);
+        }
+
+        if (campo.temDivisorAbaixo) {
+          const divisor = document.createElement('div');
+          divisor.className = 'divisor-secao';
+          container.appendChild(divisor);
+        }
+      });
+
+      atualizarPreview();
+    }
+
+    function adicionarLinhaDiscordDuplo() {
+      const grupo = document.getElementById('grupo_discordDuplo');
+      const novoIndex = grupo ? grupo.children.length : 1;
+
+      const novaLinha = document.createElement('div');
+      novaLinha.className = 'linha-multipla';
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'patente-dupla-container';
+      wrapper.style.flex = '1';
+
+      const mencaoInput = document.createElement('input');
+      mencaoInput.type = 'text';
+      mencaoInput.id = 'exilioDiscordMencao_' + novoIndex;
+      mencaoInput.value = '@';
+      mencaoInput.className = 'tag-input';
+      mencaoInput.addEventListener('keydown', function(e) {
+        if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
+          e.preventDefault();
+        }
+      });
+      mencaoInput.addEventListener('input', function() {
+        if (!this.value.startsWith('@')) {
+          this.value = '@' + this.value.replace(/@/g, '');
+        }
+        atualizarPreview();
+      });
+
+      const opcionalInput = document.createElement('input');
+      opcionalInput.type = 'text';
+      opcionalInput.id = 'exilioDiscordOpcional_' + novoIndex;
+      opcionalInput.placeholder = 'Opcional';
+      opcionalInput.className = 'nome-input';
+      opcionalInput.addEventListener('input', atualizarPreview);
+
+      wrapper.appendChild(mencaoInput);
+      wrapper.appendChild(opcionalInput);
+
+      const btnRemover = document.createElement('button');
+      btnRemover.type = 'button';
+      btnRemover.className = 'btn-remover-linha';
+      btnRemover.innerText = '✕';
+      btnRemover.onclick = function() {
+        novaLinha.remove();
+        atualizarRotulo('discordDuplo');
+        atualizarPreview();
+      };
+
+      novaLinha.appendChild(wrapper);
+      novaLinha.appendChild(btnRemover);
+      grupo.appendChild(novaLinha);
+
+      atualizarRotulo('discordDuplo');
+      mencaoInput.focus();
+      atualizarPreview();
+    }
+
+    function adicionarLinhaTotalmenteIndependente(idCampo, placeholder, isAt) {
+      const grupo = document.getElementById('grupo_' + idCampo);
+      const novoIndex = grupo ? grupo.children.length : 1;
+
+      const novaLinha = document.createElement('div');
+      novaLinha.className = 'linha-multipla';
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = idCampo + '_' + novoIndex;
+      if (placeholder) input.placeholder = placeholder;
+
+      if (isAt) {
+        input.value = '@';
+        input.addEventListener('keydown', function(e) {
+          if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
+            e.preventDefault();
+          }
+        });
+        input.addEventListener('input', function() {
+          if (!this.value.startsWith('@')) {
+            this.value = '@' + this.value.replace(/@/g, '');
+          }
+          atualizarPreview();
+        });
+      } else {
+        input.addEventListener('input', atualizarPreview);
+      }
+
+      const btnRemover = document.createElement('button');
+      btnRemover.type = 'button';
+      btnRemover.className = 'btn-remover-linha';
+      btnRemover.innerText = '✕';
+      btnRemover.onclick = function() {
+        novaLinha.remove();
+        atualizarRotulo(idCampo);
+        atualizarPreview();
+      };
+
+      const wrap = document.createElement('div');
+      wrap.style.flex = '1';
+      wrap.appendChild(input);
+
+      novaLinha.appendChild(wrap);
+      novaLinha.appendChild(btnRemover);
+      grupo.appendChild(novaLinha);
+
+      atualizarRotulo(idCampo);
+      input.focus();
+      atualizarPreview();
+    }
+
+    function atualizarRotulo(idCampo) {
+      const grupo = document.getElementById('grupo_' + idCampo);
+      const lbl = document.getElementById('label_' + idCampo);
+      const qtd = grupo ? grupo.children.length : 1;
+
+      const modelos = getModelos();
+      const modeloAtual = modelos[document.getElementById('modelo').value];
+      const campoInfo = modeloAtual.find(c => c.id === idCampo);
+
+      if (lbl && campoInfo) {
+        lbl.innerText = (qtd > 1 ? campoInfo.labelPlural : campoInfo.label) + ':';
+      }
+    }
+
+    function getValoresMultiplos(idCampo) {
+      const grupo = document.getElementById('grupo_' + idCampo);
+      if (!grupo) return [getVal(idCampo)];
+
+      let valores = [];
+      for (let i = 0; i < grupo.children.length; i++) {
+        const input = grupo.children[i].querySelector('input');
+        if (input && input.value.trim() !== '') {
+          valores.push(input.value.trim());
+        }
+      }
+      return valores;
+    }
+
+    function getValoresDiscordDuplo() {
+      const grupo = document.getElementById('grupo_discordDuplo');
+      if (!grupo) return [];
+
+      let resultados = [];
+      for (let i = 0; i < grupo.children.length; i++) {
+        const mencao = document.getElementById('exilioDiscordMencao_' + i);
+        const opcional = document.getElementById('exilioDiscordOpcional_' + i);
+
+        if (mencao || opcional) {
+          const mencaoVal = mencao ? mencao.value.trim() : '';
+          const opcionalVal = opcional ? opcional.value.trim() : '';
+
+          let formatado = '';
+          const mencaoValida = mencaoVal !== '' && mencaoVal !== '@';
+
+          if (mencaoValida && opcionalVal !== '') {
+            formatado = `${mencaoVal} > \`${opcionalVal}\``;
+          } else if (mencaoValida) {
+            formatado = mencaoVal;
+          } else if (opcionalVal !== '') {
+            formatado = `\`${opcionalVal}\``;
+          } else {
+            formatado = 'N/A.';
+          }
+          resultados.push(formatado);
+        }
+      }
+      return resultados;
+    }
+
+    function configurarSugestoes(tagInput, nomeInput, boxTag, boxNome, idCampo) {
+      function mostrar(termo, boxAlvo) {
+        boxAlvo.innerHTML = '';
+        const termoLower = termo.toLowerCase().trim();
+
+        let listaBase = HIERARQUIA_PATENTES;
+
+        // REGRA DE REBAIXAMENTO: Filtrar apenas patentes estritamente ABAIXO da Antiga Função
+        if (document.getElementById('modelo').value === 'rebaixamento' && idCampo === 'novaFuncao') {
+          const antigaTag = getVal('antigaFuncao_tag').trim().toLowerCase();
+          const antigaNome = getVal('antigaFuncao_nome').trim().toLowerCase();
+
+          const idxAntigo = HIERARQUIA_PATENTES.findIndex(p => 
+            (antigaTag && p.tag.toLowerCase() === antigaTag) || 
+            (antigaNome && p.nome.toLowerCase() === antigaNome)
+          );
+
+          if (idxAntigo !== -1) {
+            listaBase = HIERARQUIA_PATENTES.slice(idxAntigo + 1);
+          }
+        }
+
+        const filtradas = listaBase.filter(p => 
+          p.tag.toLowerCase().includes(termoLower) || 
+          p.nome.toLowerCase().includes(termoLower)
+        );
+
+        if (filtradas.length === 0) {
+          boxAlvo.style.display = 'none';
+          return;
+        }
+
+        filtradas.forEach(p => {
+          const div = document.createElement('div');
+          div.className = 'suggestion-item';
+          div.style.color = p.cor;
+          div.innerHTML = `<span>${p.nome}</span> <span class="tag-badge" style="border: 1px solid ${p.cor}; color: ${p.cor}">${p.tag}</span>`;
+
+          div.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            tagInput.value = p.tag;
+            nomeInput.value = p.nome;
+            boxTag.style.display = 'none';
+            boxNome.style.display = 'none';
+            atualizarPreview();
+          });
+
+          boxAlvo.appendChild(div);
+        });
+
+        boxAlvo.style.display = 'block';
+      }
+
+      tagInput.addEventListener('input', function() {
+        mostrar(this.value, boxTag);
+        boxNome.style.display = 'none';
+        atualizarPreview();
+      });
+
+      tagInput.addEventListener('focus', function() {
+        mostrar(this.value, boxTag);
+      });
+
+      nomeInput.addEventListener('input', function() {
+        mostrar(this.value, boxNome);
+        boxTag.style.display = 'none';
+        atualizarPreview();
+      });
+
+      nomeInput.addEventListener('focus', function() {
+        mostrar(this.value, boxNome);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!tagInput.contains(e.target) && !boxTag.contains(e.target)) boxTag.style.display = 'none';
+        if (!nomeInput.contains(e.target) && !boxNome.contains(e.target)) boxNome.style.display = 'none';
+      });
+    }
+
+    function getVal(id) {
+      const el = document.getElementById(id);
+      return el ? el.value : '';
+    }
+
+    function getPatenteFormatada(id) {
+      const tag = getVal(id + '_tag').trim();
+      const nome = getVal(id + '_nome').trim();
+
+      if (tag && nome) return `[${tag}]${nome}.`;
+      if (tag) return `[${tag}].`;
+      if (nome) return `${nome}.`;
+      return 'N/A.';
+    }
+
+    function formatarListaOuUnico(valores, comCrases = false) {
+      if (!valores || valores.length === 0) return 'N/A.';
+      const filtrados = valores.filter(v => v !== '' && v !== '@');
+      if (filtrados.length === 0) return 'N/A.';
+      
+      if (filtrados.length === 1) {
+        return comCrases ? `\`${filtrados[0]}\`` : filtrados[0];
+      }
+      
+      return '\n' + filtrados.map(v => comCrases ? `\`${v}\`` : v).join('\n');
+    }
+
+    function montarTexto() {
+      const tipo = document.getElementById('modelo').value;
+      
+      if (tipo === 'advertencia') {
+        const individuos = getValoresMultiplos('individuo');
+        const nicks = getValoresMultiplos('nickRoblox');
+        const ids = getValoresMultiplos('idRoblox');
+
+        return `**《 ADVERTÊNCIA 》
+• | Responsável: ${getVal('responsavel')}
+• | Função: ${getVal('funcao')}
+♤ ————————————— ♤
+• | ${individuos.length > 1 ? 'Indivíduos' : 'Indivíduo'}: ${formatarListaOuUnico(individuos)}
+• | ${nicks.length > 1 ? "Nick's do Roblox" : 'Nick do Roblox'}: ${formatarListaOuUnico(nicks, true)}
+• | ${ids.length > 1 ? "ID's" : 'ID'}: ${formatarListaOuUnico(ids, true)}
+
+• | Motivo(s): ${getVal('motivo').trim()}
+• | Observações: ${getVal('observacoes') || 'N/A.'}
+♤ ——————————————— ♤
+• | Data/Hora: ${getVal('dataHora')}
+• | Comprovações:**`;
+      }
+      
+      if (tipo === 'rebaixamento') {
+        const individuos = getValoresMultiplos('individuo');
+        const nicks = getValoresMultiplos('nickRoblox');
+        const ids = getValoresMultiplos('idRoblox');
+
+        return `**《 REBAIXAMENTO 》
+• | Responsável: ${getVal('responsavel')}
+• | Função: ${getVal('funcao')}
+♤ ————————————— ♤
+• | ${individuos.length > 1 ? 'Indivíduos' : 'Indivíduo'}: ${formatarListaOuUnico(individuos)}
+• | ${nicks.length > 1 ? "Nick's do Roblox" : 'Nick do Roblox'}: ${formatarListaOuUnico(nicks, true)}
+• | ${ids.length > 1 ? "ID's" : 'ID'}: ${formatarListaOuUnico(ids, true)}
+
+• | Motivo(s): ${getVal('motivo').trim()}
+• | Antiga Função: ${getPatenteFormatada('antigaFuncao')}
+• | Nova Função: ${getPatenteFormatada('novaFuncao')}
+
+• | Observações: ${getVal('observacoes') || 'N/A.'}
+♤ ——————————————— ♤
+• | Data/Hora: ${getVal('dataHora')}
+• | Comprovações:**`;
+      }
+
+      if (tipo === 'ticket') {
+        const valQtd = getVal('qtdTicket');
+        return `:CGEx: **RELATÓRIO DE TICKET
+👤 Solicitante: ${getVal('solicitante')}
+🔢 Quantidade de ticket: ${valQtd ? formatarNumeroMilhar(valQtd) : 'N/A.'}**`;
+      }
+
+      if (tipo === 'exilio') {
+        const nicksRoblox = getValoresMultiplos('nickRoblox');
+        const discords = getValoresDiscordDuplo();
+        const idsDiscord = getValoresMultiplos('idDiscord');
+
+        const textoNicksRoblox = formatarListaOuUnico(nicksRoblox, true);
+        const textoDiscords = discords.length > 1 ? '\n' + discords.join('\n') : (discords[0] || 'N/A.');
+        const textoIdsDiscord = formatarListaOuUnico(idsDiscord, true);
+
+        return `**## :CGEx: SOLICITAÇÃO DE EXÍLIO :CGEx: 
+———————————————
+• | Responsável: ${getVal('responsavel')}
+• | Função: ${getVal('funcao')}
+———————————————
+• | Solicitante: ${getVal('solicitante')}
+———————————————
+• | ${nicksRoblox.length > 1 ? "Nick's Roblox" : "Nick Roblox"}: ${textoNicksRoblox}
+• | ${discords.length > 1 ? "Nick's Discord" : "Nick Discord"}: ${textoDiscords}
+• | ${idsDiscord.length > 1 ? "ID's Discord" : "Id Discord"}: ${textoIdsDiscord}
+• | Motivo: ${getVal('motivo').trim()}
+———————————————
+• | Data-Hora: ${getVal('dataHora')}
+• | Comprovações:**`;
+      }
+
+      if (tipo === 'revogacao') {
+        return `**:CGEx: SOLICITAÇÃO DE REVOGAÇÃO :CGEx:
+—————————————————————
+👤・Responsável: ${getVal('responsavel')} 
+
+:membros: ・Solicitante: ${getVal('solicitante')}
+
+:membro: ・Autorização: ${getVal('autorizacao') || 'N/A.'}
+
+🧾・Nick do indivíduo a ser revogado: ${formatarComCrases(getVal('nickRevogado'))}
+
+🧾・Patente perdida: ${getPatenteFormatada('patentePerdida')}
+
+:interrogao: Motivo: ${getVal('motivo').trim()}
+
+📎 Comprovações:**`;
+      }
+
+      if (tipo === 'treino') {
+        return `**:CGEx: RELATÓRIO - PATENTE DE TREINO - CGEX :CGEx:>
+
+👤 Responsável: ${getVal('responsavel')}
+
+🧾・Nick do Instrutor: ${formatarComCrases(getVal('nickInstrutor'))}
+
+🧾・Nick do militar aprovado: ${formatarComCrases(getVal('nickAprovado'))}
+
+🧾・Patente a ser entregue: ${getPatenteFormatada('patenteEntregue')}
+
+📎・Comprovações/Justificativa:** ${getVal('comprovacoes') || 'N/A.'}`;
+      }
+
+      if (tipo === 'entregarPatente') {
+        return `**:CGEx: ENTREGAR PATENTE :CGEx:**
+————————————————————
+👤**・Atendente: ${getVal('atendente')}
+
+:membros:・Solicitante: ${getVal('solicitante')}
+
+:membro:・Autorização: ${getVal('autorizacao') || 'N/A.'}
+
+🧾・Nick do indivíduo: ${formatarComCrases(getVal('nickIndividuo'))}
+
+🧾・Patente a entregar: ${getPatenteFormatada('patenteEntregar')}
+
+⌛ ・Tempo de inatividade: ${getVal('tempoInatividade') || 'N/A.'}
+
+📎・Comprovações/Justificativa: **${getVal('comprovacoes') || 'N/A.'}**`;
+      }
+    }
+
+    function atualizarPreview() {
+      document.getElementById('preview').innerText = montarTexto();
+    }
+
+    function gerarEcopiar() {
+      const tipo = document.getElementById('modelo').value;
+      const motivoEl = document.getElementById('motivo');
+
+      if (motivoEl && !motivoEl.value.trim()) {
+        alert('⚠️ Preencha o campo Motivo! Ele é obrigatório para gerar este relatório.');
+        motivoEl.focus();
+        return;
+      }
+
+      const texto = montarTexto();
+
+      navigator.clipboard.writeText(texto).then(() => {
+        alert('✅ Relatório copiado com sucesso!');
+
+        if (tipo === 'ticket') {
+          const solicitanteEl = document.getElementById('solicitante');
+          const qtdEl = document.getElementById('qtdTicket');
+
+          if (solicitanteEl) solicitanteEl.value = '@';
+
+          if (qtdEl) {
+            let valNum = parseInt(qtdEl.value.replace(/\D/g, ''), 10);
+            if (!isNaN(valNum)) {
+              qtdEl.value = formatarNumeroMilhar((valNum + 1).toString());
+            }
+          }
+          atualizarPreview();
+        }
+      }).catch(err => {
+        alert('Erro ao copiar. Copie manualmente na pré-visualização.');
+      });
+    }
+
+    window.onload = carregarFormulario;
+  </script>
+</body>
+</html>
+
