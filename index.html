@@ -798,7 +798,7 @@
     function getModelos() {
       return {
         advertencia: [
-          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true },
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
           { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
           { id: 'individuo', label: 'Indivíduo', labelPlural: 'Indivíduos', default: '@', multavel: true, isAt: true },
           { id: 'nickRoblox', label: 'Nick do Roblox', labelPlural: "Nick's do Roblox", placeholder: 'N/A.', multavel: true },
@@ -808,7 +808,7 @@
           { id: 'dataHora', label: 'Data/Hora', type: 'timestampSelector' }
         ],
         rebaixamento: [
-          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true },
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
           { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
           { id: 'individuo', label: 'Indivíduo', labelPlural: 'Indivíduos', default: '@', multavel: true, isAt: true },
           { id: 'nickRoblox', label: 'Nick do Roblox', labelPlural: "Nick's do Roblox", placeholder: 'N/A.', multavel: true },
@@ -821,7 +821,7 @@
         ],
         ticket: [],
         exilio: [
-          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true },
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
           { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
           { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
           { id: 'nickRoblox', label: 'Nick Roblox', labelPlural: "Nick's Roblox", placeholder: 'N/A.', multavel: true },
@@ -831,7 +831,7 @@
           { id: 'dataHora', label: 'Data-Hora', type: 'timestampSelector' }
         ],
         revogacao: [
-          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true, temDivisorAbaixo: true },
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true, temDivisorAbaixo: true },
           { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
           { id: 'autorizacao', label: 'Autorização', placeholder: 'N/A.' },
           { id: 'nickRevogado', label: 'Nick do indivíduo a ser revogado', placeholder: 'N/A.' },
@@ -839,14 +839,14 @@
           { id: 'motivo', label: 'Motivo', type: 'textarea', placeholder: 'Digite o motivo (obrigatório)...' }
         ],
         treino: [
-          { id: 'responsavel', label: 'Responsável', default: '@enex1s', readOnly: true, temDivisorAbaixo: true },
+          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true, temDivisorAbaixo: true },
           { id: 'nickInstrutor', label: 'Nick do Instrutor', placeholder: 'N/A.' },
           { id: 'nickAprovado', label: 'Nick do militar aprovado', placeholder: 'N/A.' },
           { id: 'patenteEntregue', label: 'Patente a ser entregue (Tag e Nome)', type: 'patenteDupla' },
           { id: 'comprovacoes', label: 'Comprovações/Justificativa', type: 'textarea', placeholder: 'N/A.' }
         ],
         entregarPatente: [
-          { id: 'atendente', label: 'Atendente', default: '@enex1s', readOnly: true, temDivisorAbaixo: true },
+          { id: 'atendente', label: 'Atendente', default: '@', lockAt: true, temDivisorAbaixo: true },
           { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
           { id: 'autorizacao', label: 'Autorização', placeholder: 'N/A.' },
           { id: 'nickIndividuo', label: 'Nick do indivíduo', placeholder: 'N/A.' },
