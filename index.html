@@ -36,18 +36,19 @@
       overflow-x: hidden;
     }
 
-    /* FUNDO COM GRADIENTES E BLUR SUTIL (VERMELHO E BRANCO) */
+    /* FUNDO COM BLURS GRANDES, SUAVES E MOVIMENTO EXTREMAMENTE LENTO (2D) */
     body::before {
       content: '';
       position: fixed;
       top: -150px;
       left: -150px;
-      width: 450px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(211, 47, 47, 0.12) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 70%);
-      filter: blur(80px);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(211, 47, 47, 0.22) 0%, transparent 65%);
+      filter: blur(85px);
       z-index: -1;
       pointer-events: none;
+      animation: floatBlur1 45s infinite alternate ease-in-out;
     }
 
     body::after {
@@ -55,12 +56,29 @@
       position: fixed;
       bottom: -150px;
       right: -150px;
-      width: 450px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(211, 47, 47, 0.09) 0%, rgba(255, 255, 255, 0.015) 50%, transparent 70%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(211, 47, 47, 0.18) 0%, transparent 65%);
       filter: blur(90px);
       z-index: -1;
       pointer-events: none;
+      animation: floatBlur2 55s infinite alternate ease-in-out;
+    }
+
+    @keyframes floatBlur1 {
+      0% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(160px, 100px) scale(1.1); }
+      50% { transform: translate(80px, 280px) scale(0.95); }
+      75% { transform: translate(-60px, 180px) scale(1.05); }
+      100% { transform: translate(200px, -40px) scale(1); }
+    }
+
+    @keyframes floatBlur2 {
+      0% { transform: translate(0, 0) scale(1); }
+      30% { transform: translate(-180px, -120px) scale(1.08); }
+      60% { transform: translate(-100px, -280px) scale(0.92); }
+      85% { transform: translate(60px, -150px) scale(1.04); }
+      100% { transform: translate(-220px, 60px) scale(1); }
     }
 
     .container {
@@ -144,14 +162,8 @@
     }
 
     @keyframes fadeInForm {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .custom-dropdown {
@@ -209,7 +221,6 @@
       overflow-y: auto;
       z-index: 999;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
-      
       opacity: 0;
       visibility: hidden;
       transform: translateY(-8px);
@@ -304,13 +315,8 @@
       position: relative;
     }
 
-    .patente-wrapper.tag-wrap {
-      width: 35%;
-    }
-
-    .patente-wrapper.nome-wrap {
-      width: 65%;
-    }
+    .patente-wrapper.tag-wrap { width: 35%; }
+    .patente-wrapper.nome-wrap { width: 65%; }
 
     .patente-wrapper input {
       width: 100%;
@@ -359,6 +365,52 @@
       text-shadow: 0 0 8px rgba(211, 47, 47, 0.8);
     }
 
+    /* ESTILO COMPACTO DA CAIXINHA DE MENÇÃO */
+    .mencao-input-wrapper {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+      margin-top: 6px;
+      align-items: center;
+    }
+
+    .btn-tipo-mencao {
+      background-color: #121215;
+      border: 1px solid var(--border);
+      color: var(--subtext);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      padding: 0 6px;
+      height: 44px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+    }
+
+    .btn-tipo-mencao:hover {
+      border-color: rgba(211, 47, 47, 0.5);
+      color: #ffffff;
+      background-color: rgba(211, 47, 47, 0.1);
+    }
+
+    .btn-tipo-mencao.ativo-mencao {
+      background-color: rgba(211, 47, 47, 0.18);
+      border-color: var(--accent-red);
+      color: var(--accent-red);
+      box-shadow: 0 0 8px rgba(211, 47, 47, 0.25);
+    }
+
+    .mencao-input-wrapper .input-com-botao {
+      margin-top: 0;
+      flex: 1;
+    }
+
     .grupo-multiplo-container {
       display: flex;
       flex-direction: column;
@@ -374,19 +426,11 @@
     }
 
     @keyframes slideInLine {
-      from {
-        opacity: 0;
-        transform: scale(0.97) translateY(-5px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
+      from { opacity: 0; transform: scale(0.97) translateY(-5px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    .linha-multipla input {
-      margin-top: 0;
-    }
+    .linha-multipla input { margin-top: 0; }
 
     .btn-remover-linha {
       background-color: transparent;
@@ -463,30 +507,34 @@
 
     .btn {
       width: 100%;
-      background-color: rgba(211, 47, 47, 0.25);
+      background-color: rgba(211, 47, 47, 0.18);
       color: #ffffff;
-      padding: 10px 12px;
-      border: 1.5px solid #d32f2f;
+      padding: 8px 10px;
+      border: 1px solid rgba(211, 47, 47, 0.6);
       border-radius: 8px;
       font-family: 'Cinzel', serif;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-top: 15px;
+      letter-spacing: 0.6px;
+      margin-top: 14px;
       cursor: pointer;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(2px);
       white-space: nowrap;
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
     }
 
     .btn:hover {
-      background-color: rgba(211, 47, 47, 0.45);
-      box-shadow: 0 0 15px rgba(211, 47, 47, 0.4);
-      transform: translateY(-2px);
+      background-color: rgba(211, 47, 47, 0.35);
+      border-color: var(--accent-red);
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 12px rgba(211, 47, 47, 0.35);
+      transform: translateY(-1px);
     }
 
     .btn:active {
-      background-color: rgba(211, 47, 47, 0.75);
+      background-color: rgba(211, 47, 47, 0.6);
       transform: scale(0.98);
     }
 
@@ -574,9 +622,194 @@
       opacity: 1;
     }
 
+    .footer-action-bar {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-abrir-regras-bottom {
+      background-color: rgba(18, 18, 21, 0.8);
+      border: 1px solid rgba(211, 47, 47, 0.3);
+      color: #9999aa;
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-abrir-regras-bottom:hover {
+      background-color: rgba(211, 47, 47, 0.2);
+      border-color: var(--accent-red);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(211, 47, 47, 0.25);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      z-index: 20000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .modal-overlay.ativo {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background-color: #111115;
+      border: 1px solid #2a2a35;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      transform: translateY(15px) scale(0.97);
+      transition: all 0.25s ease;
+      overflow: hidden;
+    }
+
+    .modal-overlay.ativo .modal-container {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #111115;
+      z-index: 2;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.92rem;
+      color: var(--accent-red);
+      letter-spacing: 0.8px;
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--subtext);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .modal-close-btn:hover { color: #ffffff; }
+
+    .modal-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background-color: #0d0d10;
+      z-index: 2;
+    }
+
+    .modal-tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--subtext);
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-bottom: 2px solid transparent;
+    }
+
+    .modal-tab-btn.ativo {
+      color: var(--accent-red);
+      border-bottom-color: var(--accent-red);
+      background-color: rgba(211, 47, 47, 0.08);
+    }
+
+    .modal-body {
+      padding: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: #d8d8e5;
+      position: relative;
+      flex: 1;
+    }
+
+    .tab-slider-wrapper {
+      display: flex;
+      width: 200%;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      align-items: flex-start;
+    }
+
+    .tab-slider-wrapper.slide-comandos {
+      transform: translateX(-50%);
+    }
+
+    .modal-tab-content {
+      width: 50%;
+      padding: 18px;
+      box-sizing: border-box;
+    }
+
+    .modal-body h3 {
+      font-family: 'Cinzel', serif;
+      color: #ffffff;
+      font-size: 0.88rem;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      border-left: 3px solid var(--accent-red);
+      padding-left: 8px;
+    }
+
+    .modal-body h3:first-child { margin-top: 0; }
+    .modal-body ul { margin: 0; padding-left: 18px; }
+    .modal-body li { margin-bottom: 5px; }
+
+    .modal-body blockquote {
+      margin: 12px 0;
+      padding: 10px 12px;
+      background-color: rgba(255, 255, 255, 0.03);
+      border-left: 2px solid var(--accent-red);
+      font-size: 0.8rem;
+      color: #bbbbcc;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .destaque-nome {
+      color: var(--accent-red);
+      font-weight: 700;
+    }
+
     footer {
       text-align: center;
-      margin-top: 35px;
+      margin-top: 20px;
       padding: 15px 0 10px 0;
       font-family: 'Cinzel', serif;
       color: var(--subtext);
@@ -601,6 +834,131 @@
 
   <!-- ELEMENTO DO TOAST -->
   <div id="toast-notificacao">Relatório copiado com sucesso!</div>
+
+  <!-- MODAL DE REGRAS E COMANDOS -->
+  <div class="modal-overlay" id="modalRegras">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>◈ CGEX - DIRETRIZES E REGULAMENTOS</h2>
+        <button class="modal-close-btn" onclick="fecharModalRegras()">✕</button>
+      </div>
+      <div class="modal-tabs">
+        <button class="modal-tab-btn ativo" id="btnTabPunicoes" onclick="alternarAbaModal('punicoes')">CRITÉRIOS DE PUNIÇÃO</button>
+        <button class="modal-tab-btn" id="btnTabComandos" onclick="alternarAbaModal('comandos')">COMANDOS PROIBIDOS</button>
+      </div>
+      <div class="modal-body" id="modalBodyScroll">
+        <div class="tab-slider-wrapper" id="sliderWrapper">
+          <!-- ABA 1: CRITÉRIOS DE PUNIÇÃO -->
+          <div class="modal-tab-content">
+            <h3>◈ ADVERTÊNCIA</h3>
+            <ul>
+              <li>Má conduta.</li>
+              <li>Falta de gramática.</li>
+              <li>Pedir free / treino.</li>
+              <li>Abreviação de palavras / gírias.</li>
+              <li>Abate de civis sem justificativa.</li>
+              <li>Uso de fardamento incorreto.</li>
+              <li>Uso de exploits.</li>
+              <li>Abuso de comando .sit (abuso de bugs que quebram o RP no EB).</li>
+              <li>Ausência fora de área AFK.</li>
+              <li>Música inapropriada dentro do quartel.</li>
+              <li>Prisão de forma abusiva.</li>
+              <li>Atrapalhar o trabalho da CGEx.</li>
+              <li>Abuso de poder.</li>
+              <li>Mencionar outro EB de forma sugestiva para angariar usuários.</li>
+              <li>Reincidência a punição anterior de exílio (2 advertências).</li>
+              <li>Ícone do executor na tela.</li>
+              <li>Assédio.</li>
+              <li>Discurso de ódio <strong>(grau leve)</strong>.</li>
+              <li>Uso de algema para quebrar o RP.</li>
+            </ul>
+
+            <h3>◈ REBAIXAMENTO (Limite de 4 rebaixamentos)</h3>
+            <ul>
+              <li>Omissão ao entregar a patente do aprovado após 6h. <strong>(2 rebaixamentos)</strong></li>
+              <li>Rebaixamento não autorizado pela CGEx <strong>(2 rebaixamentos)</strong> +1 por pessoa rebaixada.</li>
+              <li>Aplicar treinamento incorretamente. <strong>(1 rebaixamento)</strong></li>
+              <li>Aplicar recrutamento de forma errada. <strong>(1 rebaixamento)</strong></li>
+              <li>Uso de comandos proibidos. <strong>(1 rebaixamento)</strong></li>
+              <li>Acúmulo de 3 advertências. <strong>(1 rebaixamento)</strong></li>
+              <li>Free patente. <strong>(3 rebaixamentos)</strong></li>
+              <li>Free rank em excesso. <strong>(Rebaixamento para Recruta + Exílio)</strong></li>
+              <li>Reincidência no uso de exploits pós advertência. <strong>(1 rebaixamento)</strong></li>
+              <li>Descumprimento de ordens da CGEx para comparência em call/ticket. <strong>(1 rebaixamento)</strong></li>
+              <li>Divulgação de script. <strong>(2 rebaixamentos)</strong></li>
+              <li>Script para vantagem em treino físico. <strong>(2 rebaixamentos)</strong></li>
+              <li>Uso de executor para farm, voar ou gestos +18. <strong>(1 rebaixamento cada)</strong></li>
+              <li>Divulgação de família/divisão não oficial em chats do EB. <strong>(2 rebaixamentos)</strong></li>
+              <li>Discurso de ódio <strong>(grau médio)</strong>. <strong>(1 rebaixamento)</strong></li>
+            </ul>
+
+            <h3>◈ EXÍLIO / BANIMENTO</h3>
+            <ul>
+              <li>Uso de scripts para obter vantagens ou prejudicar militares.</li>
+              <li>Abuso de bugs (bug exploit).</li>
+              <li>Difamação à nossa instituição.</li>
+              <li>Participar de ambientes que conspiram contra o EB.</li>
+              <li>Fraude / golpe.</li>
+              <li>RAID.</li>
+              <li>Conteúdo discriminatório / discurso de ódio <strong>(grau grave)</strong>.</li>
+              <li>Conteúdo pornográfico / gore.</li>
+              <li>Divulgação de outro EB ou participação no desenvolvimento do mesmo.</li>
+              <li>Reincidência de punições anteriores mesmo após avisos.</li>
+              <li>Descumprimento de ordens da Administração Geral / Alto Escalão.</li>
+              <li>Estar em servidores que conspiram contra o Delta, Gengar ou a Administração.</li>
+              <li>Free patente com +15 promoções.</li>
+              <li>Difamação contra o Delta/Gengar.</li>
+              <li>Divulgação de casa de apostas.</li>
+              <li>Char de apologia.</li>
+            </ul>
+
+            <h3>◈ REVOGAÇÃO</h3>
+            <blockquote>
+              Aplicável exclusivamente nos casos em que o militar tenha sido rebaixado sem a devida documentação, relatório formal ou quando tenha ocorrido uma promoção indevida por erro. Antes da aplicação da medida, deverá ser verificado se a ação não foi realizada por terceiros responsáveis, como o <span class="destaque-nome">Delta</span>, <span class="destaque-nome">GengarMelhorPoke</span>, <span class="destaque-nome">Departamento de Exílios</span> ou <span class="destaque-nome">Poder Judiciário</span>.
+            </blockquote>
+          </div>
+
+          <!-- ABA 2: COMANDOS PROIBIDOS -->
+          <div class="modal-tab-content">
+            <p style="color: #ffaaaa; font-size: 0.78rem; margin-top: 0;">
+              <strong>Atenção:</strong> O uso indevido dos comandos abaixo pode resultar em punições disciplinares.
+            </p>
+
+            <h3>▸ DISFARÇAR</h3>
+            <p>● Terminentemente proibido para todos!</p>
+
+            <h3>▸ TITLE / COUNTDOWN / HipHeight</h3>
+            <p>● Expressamente proibidos em servidores públicos.</p>
+
+            <h3>▸ CMDBAR2</h3>
+            <p>● Proibido. Autorizados apenas: Corregedor+ da SGEx e Sub Criadores.</p>
+
+            <h3>▸ CHAR</h3>
+            <ul>
+              <li>Autorizado para: Gamepass (Elite, Vice e Light Club) e Aspirantes+ (apenas de cunho militar).</li>
+              <li>Conteúdo NSFW/gore totalmente proibido.</li>
+              <li>Considerado comando proibido quando utilizado em terceiros ou quebrando regras da comunidade.</li>
+            </ul>
+
+            <h3>▸ KICK</h3>
+            <p>● Proibido em servidores públicos. Autorizado apenas para membros da CGEx com finalidade estritamente administrativa.</p>
+
+            <h3>▸ INVISIBLE</h3>
+            <p>● Proibido. Autorizados apenas: Coordenadores+ da CGEx (fins administrativos), Vice Presidentes, Presidente, Sócios e Sub Criadores.</p>
+
+            <h3>▸ REFRESH (ref) / RESPAWN (res)</h3>
+            <p>● Proibido utilizar em desconhecidos. Utilize apenas em si mesmo e com moderação.</p>
+
+            <h3>▸ KILL / EXPLOD / PUNISH / ICE / BUBBLECHAT / CLONE / H / M / SM</h3>
+            <p>● Completamente proibidos em servidores públicos.</p>
+
+            <h3>▸ TO</h3>
+            <p>● Proibido utilizar :to em pessoas que não autorizaram ou desconhecidas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="container">
     <h1>CGEx - Emissor de Relatórios</h1>
@@ -640,6 +998,10 @@
         <pre id="preview">Selecione um modelo e preencha os campos...</pre>
       </div>
     </div>
+
+    <div class="footer-action-bar">
+      <button class="btn-abrir-regras-bottom" onclick="abrirModalRegras()">◈ Diretrizes & Comandos</button>
+    </div>
   </div>
 
   <footer>
@@ -677,77 +1039,83 @@
 
     const CRITERIOS_PUNICAO = {
       advertencia: [
-        "Má conduta.",
-        "Falta de gramática.",
-        "Pedir free / treino.",
-        "Abreviação de palavras / gírias.",
-        "Abate de civis sem justificativa.",
-        "Uso de fardamento incorreto.",
-        "Uso de exploits.",
-        "Abuso de comando .sit (abuso de bugs que quebram o role play no EB).",
-        "Ausência fora de área AFK.",
-        "Música inapropriada dentro do quartel.",
-        "Prisão de forma abusiva (segurar a pessoa na algema por minutos sem justificativa plausível).",
-        "Atrapalhar o trabalho da CGEx (quando o militar do EB atrapalha a ação de integrante da CGEx em sala enquanto ele estiver resolvendo chamado, mesmo após avisos).",
-        "Abuso de poder.",
-        "Mencionar outro EB de forma sugestiva para angariar usuários.",
-        "Reincidência a punição anterior de exílio (2 advertências).",
-        "Ícone do executor na tela.",
-        "Assédio.",
-        "Discurso de ódio (de grau leve).",
-        "Uso de algema para quebrar o RP."
+        "Má conduta.", "Falta de gramática.", "Pedir free / treino.", "Abreviação de palavras / gírias.",
+        "Abate de civis sem justificativa.", "Uso de fardamento incorreto.", "Uso de exploits.",
+        "Abuso de comando .sit (abuso de bugs que quebram o role play no EB).", "Ausência fora de área AFK.",
+        "Música inapropriada dentro do quartel.", "Prisão de forma abusiva.", "Atrapalhar o trabalho da CGEx.",
+        "Abuso de poder.", "Mencionar outro EB de forma sugestiva para angariar usuários.",
+        "Reincidência a punição anterior de exílio (2 advertências).", "Ícone do executor na tela.",
+        "Assédio.", "Discurso de ódio (de grau leve).", "Uso de algema para quebrar o RP."
       ],
       rebaixamento: [
         "Omissão ao entregar a patente do aprovado após seis horas do treino. (2 rebaixamentos)",
         "Rebaixamento não autorizado pela CGEx (2 rebaixamentos), +1 rebaixamento para cada pessoa que ele rebaixou.",
-        "Aplicar treinamento incorretamente. (1 rebaixamento)",
-        "Aplicar recrutamento de forma errada. (1 rebaixamento)",
-        "Uso de comandos proibidos. (1 rebaixamento)",
-        "Acúmulo de 3 advertências. (1 rebaixamento)",
-        "Free patente. (3 rebaixamentos)",
-        "Free rank em excesso. (rebaixamento para recruta + exílio)",
+        "Aplicar treinamento incorretamente. (1 rebaixamento)", "Aplicar recrutamento de forma errada. (1 rebaixamento)",
+        "Uso de comandos proibidos. (1 rebaixamento)", "Acúmulo de 3 advertências. (1 rebaixamento)",
+        "Free patente. (3 rebaixamentos)", "Free rank em excesso. (rebaixamento para recruta + exílio)",
         "Reincidência no uso de exploits mesmo após advertência. (1 rebaixamento)",
         "Descumprimento de ordens da CGEx para comparecimento em call de suporte / ticket (3 chamados +). (1 rebaixamento)",
-        "Divulgação de script. (2 rebaixamentos)",
-        "Script para obter vantagem em treinamento físico. (2 rebaixamentos)",
-        "Uso de executor para farm. (1 rebaixamento)",
-        "Uso de executor para voar. (1 rebaixamento)",
-        "Uso de executor para gestos +18. (1 rebaixamento)",
-        "Divulgação de família ou divisão não oficial em chats do EB. (2 rebaixamentos)",
+        "Divulgação de script. (2 rebaixamentos)", "Script para obter vantagem em treinamento físico. (2 rebaixamentos)",
+        "Uso de executor para farm. (1 rebaixamento)", "Uso de executor para voar. (1 rebaixamento)",
+        "Uso de executor para gestos +18. (1 rebaixamento)", "Divulgação de família ou divisão não oficial em chats do EB. (2 rebaixamentos)",
         "Discurso de ódio (de grau médio). (1 rebaixamento)"
       ],
       exilio: [
-        "Uso de scripts para obter vantagens ou prejudicar militares.",
-        "Abuso de bugs (bug exploit).",
-        "Difamação à nossa instituição.",
-        "Participar de ambientes que conspiram contra o EB.",
-        "Fraude / golpe.",
-        "RAID.",
-        "Conteúdo discriminatório / discurso de ódio.",
-        "Conteúdo pornográfico / gore.",
-        "Divulgação de outro EB.",
-        "Participar de outro EB com envolvimento no desenvolvimento dele.",
-        "Reincidência de punições anteriores mesmo após avisos.",
+        "Uso de scripts para obter vantagens ou prejudicar militares.", "Abuso de bugs (bug exploit).",
+        "Difamação à nossa instituição.", "Participar de ambientes que conspiram contra o EB.", "Fraude / golpe.", "RAID.",
+        "Conteúdo discriminatório / discurso de ódio.", "Conteúdo pornográfico / gore.", "Divulgação de outro EB.",
+        "Participar de outro EB com envolvimento no desenvolvimento dele.", "Reincidência de punições anteriores mesmo após avisos.",
         "Descumprimento de ordens da Administração Geral / Alto Escalão da Corregedoria (dependendo do caso).",
-        "Estar em servidores que conspiram contra o Delta, Gengar ou a Administração do Exército.",
-        "Free patente com +15 promoções.",
-        "Difamação contra o Delta/Gengar.",
-        "Divulgação de servidores não oficiais em chats do EB.",
-        "Discurso de ódio (de grau grave).",
-        "Divulgação de casa de apostas.",
-        "Char de apologia."
+        "Estar em servidores que conspiram contra o Delta, Gengar ou a Administração do Exército.", "Free patente com +15 promoções.",
+        "Difamação contra o Delta/Gengar.", "Divulgação de servidores não oficiais em chats do EB.",
+        "Discurso de ódio (de grau grave).", "Divulgação de casa de apostas.", "Char de apologia."
       ],
-      entregarPatente: [
-        "Saiu da comunidade no Roblox."
-      ]
+      entregarPatente: [ "Saiu da comunidade no Roblox." ]
     };
 
     let formatoTimestampSelecionado = 'f';
 
-    function getUnixNow() {
-      return Math.floor(Date.now() / 1000);
+    window.addEventListener('beforeunload', function (e) {
+      if (formularioEstaPreenchido()) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
+    function formularioEstaPreenchido() {
+      const inputs = document.querySelectorAll('#campos-dinamicos input:not([readonly]), #campos-dinamicos textarea');
+      for (let input of inputs) {
+        let val = input.value.trim();
+        if (val !== '' && val !== '@') return true;
+      }
+      return false;
     }
 
+    function abrirModalRegras() { document.getElementById('modalRegras').classList.add('ativo'); }
+    function fecharModalRegras() { document.getElementById('modalRegras').classList.remove('ativo'); }
+
+    function alternarAbaModal(aba) {
+      const btnPunicoes = document.getElementById('btnTabPunicoes');
+      const btnComandos = document.getElementById('btnTabComandos');
+      const slider = document.getElementById('sliderWrapper');
+      const scrollBody = document.getElementById('modalBodyScroll');
+
+      if (scrollBody) scrollBody.scrollTop = 0;
+
+      if (aba === 'punicoes') {
+        btnPunicoes.classList.add('ativo');
+        btnComandos.classList.remove('ativo');
+        slider.classList.remove('slide-comandos');
+      } else {
+        btnComandos.classList.add('ativo');
+        btnPunicoes.classList.remove('ativo');
+        slider.classList.add('slide-comandos');
+      }
+    }
+
+    function getUnixNow() { return Math.floor(Date.now() / 1000); }
+
+    /* FORMATAR COM CRASES: RETORNA LIMPO SE N/A. OU VAZIO (SEM `` DUPLAS VAZIAS) */
     function formatarComCrases(valor, comCrases = true) {
       const v = valor ? valor.trim() : '';
       if (!v || v === 'N/A.') return 'N/A.';
@@ -763,7 +1131,6 @@
 
     function formatarDataHoraVisual(unix, formato) {
       const d = new Date(unix * 1000);
-      
       const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
       const diasSemana = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
 
@@ -795,12 +1162,13 @@
       atualizarPreview();
     }, 1000);
 
+    /* RESPONSÁVEIS AGORA VÊM EM BRANCO DE FORMA PADRÃO */
     function getModelos() {
       return {
         advertencia: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
+          { id: 'responsavel', label: 'Responsável', default: '', placeholder: 'Seu usuário...' },
           { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
-          { id: 'individuo', label: 'Indivíduo', labelPlural: 'Indivíduos', default: '@', multavel: true, isAt: true },
+          { id: 'individuo', label: 'Indivíduo (ID)', labelPlural: 'Indivíduos (ID)', default: '', multavel: true, isAt: true },
           { id: 'nickRoblox', label: 'Nick do Roblox', labelPlural: "Nick's do Roblox", placeholder: 'N/A.', multavel: true },
           { id: 'idRoblox', label: 'ID', labelPlural: "ID's", placeholder: 'N/A.', multavel: true },
           { id: 'motivo', label: 'Motivo(s)', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' },
@@ -808,11 +1176,11 @@
           { id: 'dataHora', label: 'Data/Hora', type: 'timestampSelector' }
         ],
         rebaixamento: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
+          { id: 'responsavel', label: 'Responsável', default: '', placeholder: 'Seu usuário...' },
           { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
-          { id: 'individuo', label: 'Indivíduo', labelPlural: 'Indivíduos', default: '@', multavel: true, isAt: true },
-          { id: 'nickRoblox', label: 'Nick do Roblox', labelPlural: "Nick's do Roblox", placeholder: 'N/A.', multavel: true },
-          { id: 'idRoblox', label: 'ID', labelPlural: "ID's", placeholder: 'N/A.', multavel: true },
+          { id: 'individuo', label: 'Indivíduo (ID)', placeholder: 'Digite o ID...', isAt: true },
+          { id: 'nickRoblox', label: 'Nick do Roblox', placeholder: 'N/A.' },
+          { id: 'idRoblox', label: 'ID', placeholder: 'N/A.' },
           { id: 'motivo', label: 'Motivo(s)', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' },
           { id: 'antigaFuncao', label: 'Antiga Função (Tag e Nome)', type: 'patenteDupla' },
           { id: 'novaFuncao', label: 'Nova Função (Tag e Nome)', type: 'patenteDupla' },
@@ -821,33 +1189,33 @@
         ],
         ticket: [],
         exilio: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true },
+          { id: 'responsavel', label: 'Responsável', default: '', placeholder: 'Seu usuário...' },
           { id: 'funcao', label: 'Função', default: 'Corregedoria.', readOnly: true, temDivisorAbaixo: true },
-          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
+          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true, placeholder: '@ Nome de usuário...' },
           { id: 'nickRoblox', label: 'Nick Roblox', labelPlural: "Nick's Roblox", placeholder: 'N/A.', multavel: true },
-          { id: 'discordDuplo', label: 'Nick Discord (Menção > Opcional)', labelPlural: "Nick's Discord (Menção > Opcional)", type: 'discordDuploMultavel' },
+          { id: 'discordDuplo', label: 'Nick Discord (ID > Opcional)', labelPlural: "Nick's Discord (ID > Opcional)", type: 'discordDuploMultavel' },
           { id: 'idDiscord', label: 'ID Discord', labelPlural: "ID's Discord", placeholder: 'N/A.', multavel: true },
           { id: 'motivo', label: 'Motivo', type: 'textarea', isMotivo: true, placeholder: 'Digite o motivo (obrigatório)...' },
           { id: 'dataHora', label: 'Data-Hora', type: 'timestampSelector' }
         ],
         revogacao: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true, temDivisorAbaixo: true },
-          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
+          { id: 'responsavel', label: 'Responsável', default: '', placeholder: 'Seu usuário...', temDivisorAbaixo: true },
+          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true, placeholder: '@ Nome de usuário...' },
           { id: 'autorizacao', label: 'Autorização', placeholder: 'N/A.' },
-          { id: 'nickRevogado', label: 'Nick do indivíduo a ser revogado', placeholder: 'N/A.' },
-          { id: 'patentePerdida', label: 'Patente perdida (Tag e Nome)', type: 'patenteDupla' },
+          { id: 'nickRevogado', label: 'Nick do indivíduo a ser revogado', labelPlural: "Nick's dos indivíduos a serem revogados", placeholder: 'N/A.', multavel: true },
+          { id: 'patentePerdida', label: 'Patente perdida (Tag e Nome)', labelPlural: 'Patentes perdidas (Tag e Nome)', type: 'patenteDuplaMultavel' },
           { id: 'motivo', label: 'Motivo', type: 'textarea', placeholder: 'Digite o motivo (obrigatório)...' }
         ],
         treino: [
-          { id: 'responsavel', label: 'Responsável', default: '@', lockAt: true, temDivisorAbaixo: true },
+          { id: 'responsavel', label: 'Responsável', default: '', placeholder: 'Seu usuário...', temDivisorAbaixo: true },
           { id: 'nickInstrutor', label: 'Nick do Instrutor', placeholder: 'N/A.' },
-          { id: 'nickAprovado', label: 'Nick do militar aprovado', placeholder: 'N/A.' },
-          { id: 'patenteEntregue', label: 'Patente a ser entregue (Tag e Nome)', type: 'patenteDupla' },
+          { id: 'nickAprovado', label: 'Nick do militar aprovado', labelPlural: "Nick's dos militares aprovados", placeholder: 'N/A.', multavel: true },
+          { id: 'patenteEntregue', label: 'Patente a ser entregue (Tag e Nome)', labelPlural: 'Patentes a serem entregues (Tag e Nome)', type: 'patenteDuplaMultavel' },
           { id: 'comprovacoes', label: 'Comprovações/Justificativa', type: 'textarea', placeholder: 'N/A.' }
         ],
         entregarPatente: [
-          { id: 'atendente', label: 'Atendente', default: '@', lockAt: true, temDivisorAbaixo: true },
-          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true },
+          { id: 'atendente', label: 'Atendente', default: '', placeholder: 'Seu usuário...', temDivisorAbaixo: true },
+          { id: 'solicitante', label: 'Solicitante', default: '@', lockAt: true, placeholder: '@ Nome de usuário...' },
           { id: 'autorizacao', label: 'Autorização', placeholder: 'N/A.' },
           { id: 'nickIndividuo', label: 'Nick do indivíduo', placeholder: 'N/A.' },
           { id: 'patenteEntregar', label: 'Patente a entregar (Tag e Nome)', type: 'patenteDupla' },
@@ -861,10 +1229,7 @@
       const toast = document.getElementById('toast-notificacao');
       toast.innerText = mensagem;
       toast.classList.add('mostrar');
-
-      setTimeout(() => {
-        toast.classList.remove('mostrar');
-      }, 2500);
+      setTimeout(() => { toast.classList.remove('mostrar'); }, 2500);
     }
 
     function inicializarDropdownCustomizado() {
@@ -883,44 +1248,29 @@
         option.addEventListener('click', (e) => {
           e.stopPropagation();
           const value = option.getAttribute('data-value');
-          const text = option.innerText;
-
-          selectBox.innerText = text;
+          selectBox.innerText = option.innerText;
           hiddenSelect.value = value;
 
           optionsList.forEach(opt => opt.classList.remove('selected'));
           option.classList.add('selected');
-
           dropdown.classList.remove('active');
 
           carregarFormulario();
         });
       });
 
-      window.addEventListener('click', () => {
-        dropdown.classList.remove('active');
-      });
+      window.addEventListener('click', () => { dropdown.classList.remove('active'); });
     }
 
     function configurarSugestoesMotivo(textareaEl, boxAlvo, modeloTipo) {
       function mostrar(termo) {
         boxAlvo.innerHTML = '';
         const termoLower = termo.toLowerCase().trim();
-
         const listaBase = CRITERIOS_PUNICAO[modeloTipo];
-        if (!listaBase) {
-          boxAlvo.style.display = 'none';
-          return;
-        }
+        if (!listaBase) { boxAlvo.style.display = 'none'; return; }
 
-        const filtradas = listaBase.filter(criterio => 
-          criterio.toLowerCase().includes(termoLower)
-        );
-
-        if (filtradas.length === 0) {
-          boxAlvo.style.display = 'none';
-          return;
-        }
+        const filtradas = listaBase.filter(criterio => criterio.toLowerCase().includes(termoLower));
+        if (filtradas.length === 0) { boxAlvo.style.display = 'none'; return; }
 
         filtradas.forEach(criterioCompleto => {
           const div = document.createElement('div');
@@ -929,32 +1279,19 @@
 
           div.addEventListener('mousedown', function(e) {
             e.preventDefault();
-            let textoLimpo = criterioCompleto.replace(/\s*\([^)]*\)/g, '').trim();
-
-            textareaEl.value = textoLimpo;
+            textareaEl.value = criterioCompleto.replace(/\s*\([^)]*\)/g, '').trim();
             boxAlvo.style.display = 'none';
             atualizarPreview();
           });
-
           boxAlvo.appendChild(div);
         });
-
         boxAlvo.style.display = 'block';
       }
 
-      textareaEl.addEventListener('input', function() {
-        mostrar(this.value);
-        atualizarPreview();
-      });
-
-      textareaEl.addEventListener('focus', function() {
-        mostrar(this.value);
-      });
-
+      textareaEl.addEventListener('input', function() { mostrar(this.value); atualizarPreview(); });
+      textareaEl.addEventListener('focus', function() { mostrar(this.value); });
       document.addEventListener('click', function(e) {
-        if (!textareaEl.contains(e.target) && !boxAlvo.contains(e.target)) {
-          boxAlvo.style.display = 'none';
-        }
+        if (!textareaEl.contains(e.target) && !boxAlvo.contains(e.target)) boxAlvo.style.display = 'none';
       });
     }
 
@@ -966,7 +1303,6 @@
       container.style.animation = 'none';
       container.offsetHeight; 
       container.style.animation = null;
-
       container.innerHTML = '';
 
       if (tipo === 'ticket') {
@@ -977,7 +1313,7 @@
           <div class="ticket-section-card">
             <div class="ticket-title">CONTROLE DE TICKET (CRESCENTE)</div>
             <label>Solicitante:</label>
-            <input type="text" id="solicitante_crescente" value="@">
+            <input type="text" id="solicitante_crescente" value="" placeholder="Nick do Solicitante...">
 
             <label>Quantidade de ticket:</label>
             <input type="text" id="qtdTicket_crescente" placeholder="Ex: 1.234">
@@ -993,7 +1329,7 @@
           <div class="ticket-section-card">
             <div class="ticket-title">CONTROLE DE TICKET (DECRESCENTE)</div>
             <label>Solicitante:</label>
-            <input type="text" id="solicitante_decrescente" value="@">
+            <input type="text" id="solicitante_decrescente" value="" placeholder="Nick do Solicitante...">
 
             <label>Quantidade de ticket:</label>
             <input type="text" id="qtdTicket_decrescente" placeholder="Ex: 1.234">
@@ -1019,7 +1355,6 @@
       }
 
       secaoPadrao.style.display = 'block';
-
       const modelos = getModelos();
 
       modelos[tipo].forEach(campo => {
@@ -1062,10 +1397,7 @@
             const box = dropTs.querySelector('.dropdown-select-box');
             const opts = dropTs.querySelectorAll('.dropdown-option');
 
-            box.addEventListener('click', (e) => {
-              e.stopPropagation();
-              dropTs.classList.toggle('active');
-            });
+            box.addEventListener('click', (e) => { e.stopPropagation(); dropTs.classList.toggle('active'); });
 
             opts.forEach(opt => {
               opt.addEventListener('click', (e) => {
@@ -1075,7 +1407,6 @@
 
                 opts.forEach(o => o.classList.remove('selected'));
                 opt.classList.add('selected');
-
                 dropTs.classList.remove('active');
                 
                 timeDisplay.innerText = formatarDataHoraVisual(getUnixNow(), formatoTimestampSelecionado);
@@ -1120,7 +1451,7 @@
 
           configurarSugestoes(tagInput, nomeInput, boxTag, boxNome, campo.id);
 
-        } else if (campo.type === 'discordDuploMultavel') {
+        } else if (campo.type === 'patenteDuplaMultavel') {
           const grupo = document.createElement('div');
           grupo.className = 'grupo-multiplo-container';
           grupo.id = 'grupo_' + campo.id;
@@ -1132,16 +1463,97 @@
           wrapper.className = 'patente-dupla-container';
           wrapper.style.flex = '1';
 
+          const tagWrap = document.createElement('div');
+          tagWrap.className = 'patente-wrapper tag-wrap';
+          const tagInput = document.createElement('input');
+          tagInput.type = 'text';
+          tagInput.id = campo.id + '_tag_0';
+          tagInput.placeholder = '[TAG]...';
+          tagInput.autocomplete = 'off';
+          const boxTag = document.createElement('div');
+          boxTag.className = 'suggestions-box';
+          tagWrap.appendChild(tagInput);
+          tagWrap.appendChild(boxTag);
+
+          const nomeWrap = document.createElement('div');
+          nomeWrap.className = 'patente-wrapper nome-wrap';
+          const nomeInput = document.createElement('input');
+          nomeInput.type = 'text';
+          nomeInput.id = campo.id + '_nome_0';
+          nomeInput.placeholder = 'Patente...';
+          nomeInput.autocomplete = 'off';
+          const boxNome = document.createElement('div');
+          boxNome.className = 'suggestions-box';
+          nomeWrap.appendChild(nomeInput);
+          nomeWrap.appendChild(boxNome);
+
+          wrapper.appendChild(tagWrap);
+          wrapper.appendChild(nomeWrap);
+
+          const btnAdd = document.createElement('button');
+          btnAdd.type = 'button';
+          btnAdd.className = 'btn-adicionar-compacto';
+          btnAdd.innerText = '+';
+          btnAdd.style.position = 'static';
+          btnAdd.style.transform = 'none';
+          btnAdd.style.height = '42px';
+          btnAdd.style.width = '30px';
+          btnAdd.onclick = function() { adicionarLinhaPatenteDupla(campo.id); };
+
+          linha1.appendChild(wrapper);
+          linha1.appendChild(btnAdd);
+          grupo.appendChild(linha1);
+          container.appendChild(grupo);
+
+          configurarSugestoes(tagInput, nomeInput, boxTag, boxNome, campo.id);
+
+        } else if (campo.type === 'discordDuploMultavel') {
+          const grupo = document.createElement('div');
+          grupo.className = 'grupo-multiplo-container';
+          grupo.id = 'grupo_' + campo.id;
+
+          const linha1 = document.createElement('div');
+          linha1.className = 'linha-multipla';
+
+          const mencaoWrapper = document.createElement('div');
+          mencaoWrapper.className = 'mencao-input-wrapper';
+          mencaoWrapper.style.flex = '1';
+
+          /* BOTAO DE MENCAO AGORA PADRÃO EM @ */
+          const btnTipo = document.createElement('button');
+          btnTipo.type = 'button';
+          btnTipo.className = 'btn-tipo-mencao ativo-mencao';
+          btnTipo.innerText = '@';
+          btnTipo.dataset.modo = 'nick';
+
+          const wrapperInput = document.createElement('div');
+          wrapperInput.className = 'patente-dupla-container';
+          wrapperInput.style.flex = '1';
+
           const mencaoInput = document.createElement('input');
           mencaoInput.type = 'text';
           mencaoInput.id = 'exilioDiscordMencao_0';
+          mencaoInput.placeholder = '@ Nome de usuário...';
           mencaoInput.value = '@';
           mencaoInput.className = 'tag-input';
-          mencaoInput.addEventListener('keydown', function(e) {
-            if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
-              e.preventDefault();
+
+          btnTipo.onclick = function() {
+            if (this.dataset.modo === 'id') {
+              this.dataset.modo = 'nick';
+              this.innerText = '@';
+              this.classList.add('ativo-mencao');
+              mencaoInput.value = '@';
+              mencaoInput.placeholder = '@ Nome de usuário...';
+            } else {
+              this.dataset.modo = 'id';
+              this.innerText = '@';
+              this.classList.remove('ativo-mencao');
+              mencaoInput.value = '@';
+              mencaoInput.placeholder = '@ Nome de usuário...';
             }
-          });
+            atualizarPreview();
+          };
+
           mencaoInput.addEventListener('input', function() {
             if (!this.value.startsWith('@')) {
               this.value = '@' + this.value.replace(/@/g, '');
@@ -1164,14 +1576,14 @@
           btnAdd.style.transform = 'none';
           btnAdd.style.height = '42px';
           btnAdd.style.width = '30px';
-          btnAdd.onclick = function() {
-            adicionarLinhaDiscordDuplo();
-          };
+          btnAdd.onclick = function() { adicionarLinhaDiscordDuplo(); };
 
-          wrapper.appendChild(mencaoInput);
-          wrapper.appendChild(opcionalInput);
+          wrapperInput.appendChild(mencaoInput);
+          wrapperInput.appendChild(opcionalInput);
+          mencaoWrapper.appendChild(btnTipo);
+          mencaoWrapper.appendChild(wrapperInput);
 
-          linha1.appendChild(wrapper);
+          linha1.appendChild(mencaoWrapper);
           linha1.appendChild(btnAdd);
           grupo.appendChild(linha1);
           container.appendChild(grupo);
@@ -1196,7 +1608,6 @@
             container.appendChild(motivoWrap);
 
             configurarSugestoesMotivo(textarea, boxMotivoSug, tipo);
-
           } else {
             const textarea = document.createElement('textarea');
             textarea.id = campo.id;
@@ -1215,45 +1626,143 @@
           const linha1 = document.createElement('div');
           linha1.className = 'linha-multipla';
 
-          const input1 = document.createElement('input');
-          input1.type = 'text';
-          input1.id = campo.id + '_0';
-          if (campo.default) input1.value = campo.default;
-          if (campo.placeholder) input1.placeholder = campo.placeholder;
+          const mencaoWrapper = document.createElement('div');
+          mencaoWrapper.className = 'mencao-input-wrapper';
 
           if (campo.isAt) {
+            /* MENSÃO PADRÃO EM @ */
+            const btnTipo = document.createElement('button');
+            btnTipo.type = 'button';
+            btnTipo.className = 'btn-tipo-mencao ativo-mencao';
+            btnTipo.innerText = '@';
+            btnTipo.dataset.modo = 'nick';
+
+            const input1 = document.createElement('input');
+            input1.type = 'text';
+            input1.id = campo.id + '_0';
+            input1.value = '@';
+            input1.placeholder = '@ Nome de usuário...';
+
+            btnTipo.onclick = function() {
+              if (this.dataset.modo === 'id') {
+                this.dataset.modo = 'nick';
+                this.innerText = '@';
+                this.classList.add('ativo-mencao');
+                input1.value = '@';
+                input1.placeholder = '@ Nome de usuário...';
+              } else {
+                this.dataset.modo = 'id';
+                this.innerText = '@';
+                this.classList.remove('ativo-mencao');
+                input1.value = '@';
+                input1.placeholder = '@ Nome de usuário...';
+              }
+              atualizarRotulo(campo.id);
+              atualizarPreview();
+            };
+
             input1.addEventListener('keydown', function(e) {
               if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
                 e.preventDefault();
               }
             });
+
             input1.addEventListener('input', function() {
               if (!this.value.startsWith('@')) {
                 this.value = '@' + this.value.replace(/@/g, '');
               }
               atualizarPreview();
             });
+
+            const wrapInput = document.createElement('div');
+            wrapInput.className = 'input-com-botao';
+            wrapInput.style.flex = '1';
+            wrapInput.appendChild(input1);
+
+            const btnAdd = document.createElement('button');
+            btnAdd.type = 'button';
+            btnAdd.className = 'btn-adicionar-compacto';
+            btnAdd.innerText = '+';
+            btnAdd.onclick = function() {
+              adicionarLinhaTotalmenteIndependente(campo.id, campo.placeholder, campo.isAt);
+            };
+
+            wrapInput.appendChild(btnAdd);
+            mencaoWrapper.appendChild(btnTipo);
+            mencaoWrapper.appendChild(wrapInput);
+
           } else {
+            const input1 = document.createElement('input');
+            input1.type = 'text';
+            input1.id = campo.id + '_0';
+            if (campo.default) input1.value = campo.default;
+            if (campo.placeholder) input1.placeholder = campo.placeholder;
             input1.addEventListener('input', atualizarPreview);
+
+            const btnAdd = document.createElement('button');
+            btnAdd.type = 'button';
+            btnAdd.className = 'btn-adicionar-compacto';
+            btnAdd.innerText = '+';
+            btnAdd.onclick = function() {
+              adicionarLinhaTotalmenteIndependente(campo.id, campo.placeholder, campo.isAt);
+            };
+
+            const wrapInput = document.createElement('div');
+            wrapInput.className = 'input-com-botao';
+            wrapInput.style.flex = '1';
+            wrapInput.appendChild(input1);
+            wrapInput.appendChild(btnAdd);
+
+            mencaoWrapper.appendChild(wrapInput);
           }
 
-          const btnAdd = document.createElement('button');
-          btnAdd.type = 'button';
-          btnAdd.className = 'btn-adicionar-compacto';
-          btnAdd.innerText = '+';
-          btnAdd.onclick = function() {
-            adicionarLinhaTotalmenteIndependente(campo.id, campo.placeholder, campo.isAt);
-          };
-
-          const wrapInput = document.createElement('div');
-          wrapInput.className = 'input-com-botao';
-          wrapInput.style.flex = '1';
-          wrapInput.appendChild(input1);
-          wrapInput.appendChild(btnAdd);
-
-          linha1.appendChild(wrapInput);
+          linha1.appendChild(mencaoWrapper);
           grupo.appendChild(linha1);
           container.appendChild(grupo);
+
+        } else if (campo.isAt) {
+          const mencaoWrapper = document.createElement('div');
+          mencaoWrapper.className = 'mencao-input-wrapper';
+
+          const btnTipo = document.createElement('button');
+          btnTipo.type = 'button';
+          btnTipo.className = 'btn-tipo-mencao ativo-mencao';
+          btnTipo.innerText = '@';
+          btnTipo.dataset.modo = 'nick';
+
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.id = campo.id;
+          input.value = '@';
+          input.placeholder = '@ Nome de usuário...';
+
+          btnTipo.onclick = function() {
+            if (this.dataset.modo === 'id') {
+              this.dataset.modo = 'nick';
+              this.innerText = '@';
+              this.classList.add('ativo-mencao');
+              input.value = '@';
+              input.placeholder = '@ Nome de usuário...';
+            } else {
+              this.dataset.modo = 'id';
+              this.innerText = '@';
+              this.classList.remove('ativo-mencao');
+              input.value = '@';
+              input.placeholder = '@ Nome de usuário...';
+            }
+            atualizarPreview();
+          };
+
+          input.addEventListener('input', function() {
+            if (!this.value.startsWith('@')) {
+              this.value = '@' + this.value.replace(/@/g, '');
+            }
+            atualizarPreview();
+          });
+
+          mencaoWrapper.appendChild(btnTipo);
+          mencaoWrapper.appendChild(input);
+          container.appendChild(mencaoWrapper);
 
         } else {
           const input = document.createElement('input');
@@ -1297,20 +1806,7 @@
       const sol = document.getElementById('solicitante_' + modo);
       const qtd = document.getElementById('qtdTicket_' + modo);
 
-      if (sol) {
-        sol.addEventListener('keydown', function(e) {
-          if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
-            e.preventDefault();
-          }
-        });
-        sol.addEventListener('input', function() {
-          if (!this.value.startsWith('@')) {
-            this.value = '@' + this.value.replace(/@/g, '');
-          }
-          atualizarPreviewTicket(modo);
-        });
-      }
-
+      if (sol) { sol.addEventListener('input', function() { atualizarPreviewTicket(modo); }); }
       if (qtd) {
         qtd.addEventListener('input', function() {
           this.value = formatarNumeroMilhar(this.value);
@@ -1320,31 +1816,33 @@
     }
 
     function montarTextoTicket(modo) {
-      const sol = getVal('solicitante_' + modo);
+      let sol = getVal('solicitante_' + modo).trim();
       const valQtd = getVal('qtdTicket_' + modo);
 
+      if (sol !== '') {
+        if (!sol.startsWith('@')) { sol = '@' + sol; }
+      } else {
+        sol = '@';
+      }
+
       return `:CGEx: **RELATÓRIO DE TICKET
-👤 Solicitante: ${sol || '@'}
+👤 Solicitante: ${sol}
 🔢 Quantidade de ticket: ${valQtd ? formatarNumeroMilhar(valQtd) : 'N/A.'}**`;
     }
 
     function atualizarPreviewTicket(modo) {
       const prev = document.getElementById('preview_' + modo);
-      if (prev) {
-        prev.innerText = montarTextoTicket(modo);
-      }
+      if (prev) prev.innerText = montarTextoTicket(modo);
     }
 
     function copiarTicket(modo) {
       const solEl = document.getElementById('solicitante_' + modo);
       const qtdEl = document.getElementById('qtdTicket_' + modo);
-
       const texto = montarTextoTicket(modo);
 
       navigator.clipboard.writeText(texto).then(() => {
         mostrarToast(`Relatório (${modo === 'crescente' ? 'Crescente' : 'Decrescente'}) copiado com sucesso!`);
-
-        if (solEl) solEl.value = '@';
+        if (solEl) solEl.value = '';
 
         if (qtdEl) {
           let valNum = parseInt(qtdEl.value.replace(/\D/g, ''), 10);
@@ -1352,16 +1850,16 @@
             let novoValor = modo === 'crescente' ? valNum + 1 : valNum - 1;
             if (novoValor < 0) novoValor = 0;
             qtdEl.value = formatarNumeroMilhar(novoValor.toString());
+          } else {
+            qtdEl.value = '';
           }
         }
         atualizarPreviewTicket(modo);
-      }).catch(err => {
-        mostrarToast('Erro ao copiar relatório.');
-      });
+      }).catch(err => { mostrarToast('Erro ao copiar relatório.'); });
     }
 
-    function adicionarLinhaDiscordDuplo() {
-      const grupo = document.getElementById('grupo_discordDuplo');
+    function adicionarLinhaPatenteDupla(idCampo) {
+      const grupo = document.getElementById('grupo_' + idCampo);
       const novoIndex = grupo ? grupo.children.length : 1;
 
       const novaLinha = document.createElement('div');
@@ -1371,16 +1869,101 @@
       wrapper.className = 'patente-dupla-container';
       wrapper.style.flex = '1';
 
+      const tagWrap = document.createElement('div');
+      tagWrap.className = 'patente-wrapper tag-wrap';
+      const tagInput = document.createElement('input');
+      tagInput.type = 'text';
+      tagInput.id = idCampo + '_tag_' + novoIndex;
+      tagInput.placeholder = '[TAG]...';
+      tagInput.autocomplete = 'off';
+      const boxTag = document.createElement('div');
+      boxTag.className = 'suggestions-box';
+      tagWrap.appendChild(tagInput);
+      tagWrap.appendChild(boxTag);
+
+      const nomeWrap = document.createElement('div');
+      nomeWrap.className = 'patente-wrapper nome-wrap';
+      const nomeInput = document.createElement('input');
+      nomeInput.type = 'text';
+      nomeInput.id = idCampo + '_nome_' + novoIndex;
+      nomeInput.placeholder = 'Patente...';
+      nomeInput.autocomplete = 'off';
+      const boxNome = document.createElement('div');
+      boxNome.className = 'suggestions-box';
+      nomeWrap.appendChild(nomeInput);
+      nomeWrap.appendChild(boxNome);
+
+      wrapper.appendChild(tagWrap);
+      wrapper.appendChild(nomeWrap);
+
+      const btnRemover = document.createElement('button');
+      btnRemover.type = 'button';
+      btnRemover.className = 'btn-remover-linha';
+      btnRemover.innerText = '✕';
+      btnRemover.onclick = function() {
+        novaLinha.style.animation = 'slideInLine 0.2s reverse ease';
+        setTimeout(() => {
+          novaLinha.remove();
+          atualizarRotulo(idCampo);
+          atualizarPreview();
+        }, 180);
+      };
+
+      novaLinha.appendChild(wrapper);
+      novaLinha.appendChild(btnRemover);
+      grupo.appendChild(novaLinha);
+
+      configurarSugestoes(tagInput, nomeInput, boxTag, boxNome, idCampo);
+      atualizarRotulo(idCampo);
+      tagInput.focus();
+      atualizarPreview();
+    }
+
+    function adicionarLinhaDiscordDuplo() {
+      const grupo = document.getElementById('grupo_discordDuplo');
+      const novoIndex = grupo ? grupo.children.length : 1;
+
+      const novaLinha = document.createElement('div');
+      novaLinha.className = 'linha-multipla';
+
+      const mencaoWrapper = document.createElement('div');
+      mencaoWrapper.className = 'mencao-input-wrapper';
+      mencaoWrapper.style.flex = '1';
+
+      const btnTipo = document.createElement('button');
+      btnTipo.type = 'button';
+      btnTipo.className = 'btn-tipo-mencao ativo-mencao';
+      btnTipo.innerText = '@';
+      btnTipo.dataset.modo = 'nick';
+
+      const wrapperInput = document.createElement('div');
+      wrapperInput.className = 'patente-dupla-container';
+      wrapperInput.style.flex = '1';
+
       const mencaoInput = document.createElement('input');
       mencaoInput.type = 'text';
       mencaoInput.id = 'exilioDiscordMencao_' + novoIndex;
       mencaoInput.value = '@';
+      mencaoInput.placeholder = '@ Nome de usuário...';
       mencaoInput.className = 'tag-input';
-      mencaoInput.addEventListener('keydown', function(e) {
-        if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
-          e.preventDefault();
+
+      btnTipo.onclick = function() {
+        if (this.dataset.modo === 'id') {
+          this.dataset.modo = 'nick';
+          this.innerText = '@';
+          this.classList.add('ativo-mencao');
+          mencaoInput.value = '@';
+          mencaoInput.placeholder = '@ Nome de usuário...';
+        } else {
+          this.dataset.modo = 'id';
+          this.innerText = '@';
+          this.classList.remove('ativo-mencao');
+          mencaoInput.value = '@';
+          mencaoInput.placeholder = '@ Nome de usuário...';
         }
-      });
+        atualizarPreview();
+      };
+
       mencaoInput.addEventListener('input', function() {
         if (!this.value.startsWith('@')) {
           this.value = '@' + this.value.replace(/@/g, '');
@@ -1395,8 +1978,10 @@
       opcionalInput.className = 'nome-input';
       opcionalInput.addEventListener('input', atualizarPreview);
 
-      wrapper.appendChild(mencaoInput);
-      wrapper.appendChild(opcionalInput);
+      wrapperInput.appendChild(mencaoInput);
+      wrapperInput.appendChild(opcionalInput);
+      mencaoWrapper.appendChild(btnTipo);
+      mencaoWrapper.appendChild(wrapperInput);
 
       const btnRemover = document.createElement('button');
       btnRemover.type = 'button';
@@ -1411,7 +1996,7 @@
         }, 180);
       };
 
-      novaLinha.appendChild(wrapper);
+      novaLinha.appendChild(mencaoWrapper);
       novaLinha.appendChild(btnRemover);
       grupo.appendChild(novaLinha);
 
@@ -1427,25 +2012,57 @@
       const novaLinha = document.createElement('div');
       novaLinha.className = 'linha-multipla';
 
+      const mencaoWrapper = document.createElement('div');
+      mencaoWrapper.className = 'mencao-input-wrapper';
+
       const input = document.createElement('input');
       input.type = 'text';
       input.id = idCampo + '_' + novoIndex;
-      if (placeholder) input.placeholder = placeholder;
 
       if (isAt) {
+        const btnTipo = document.createElement('button');
+        btnTipo.type = 'button';
+        btnTipo.className = 'btn-tipo-mencao ativo-mencao';
+        btnTipo.innerText = '@';
+        btnTipo.dataset.modo = 'nick';
+
         input.value = '@';
+        input.placeholder = '@ Nome de usuário...';
+
+        btnTipo.onclick = function() {
+          if (this.dataset.modo === 'id') {
+            this.dataset.modo = 'nick';
+            this.innerText = '@';
+            this.classList.add('ativo-mencao');
+            input.value = '@';
+            input.placeholder = '@ Nome de usuário...';
+          } else {
+            this.dataset.modo = 'id';
+            this.innerText = '@';
+            this.classList.remove('ativo-mencao');
+            input.value = '@';
+            input.placeholder = '@ Nome de usuário...';
+          }
+          atualizarRotulo(idCampo);
+          atualizarPreview();
+        };
+
         input.addEventListener('keydown', function(e) {
           if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
             e.preventDefault();
           }
         });
+
         input.addEventListener('input', function() {
           if (!this.value.startsWith('@')) {
             this.value = '@' + this.value.replace(/@/g, '');
           }
           atualizarPreview();
         });
+
+        mencaoWrapper.appendChild(btnTipo);
       } else {
+        if (placeholder) input.placeholder = placeholder;
         input.addEventListener('input', atualizarPreview);
       }
 
@@ -1466,7 +2083,8 @@
       wrap.style.flex = '1';
       wrap.appendChild(input);
 
-      novaLinha.appendChild(wrap);
+      mencaoWrapper.appendChild(wrap);
+      novaLinha.appendChild(mencaoWrapper);
       novaLinha.appendChild(btnRemover);
       grupo.appendChild(novaLinha);
 
@@ -1480,27 +2098,64 @@
       const lbl = document.getElementById('label_' + idCampo);
       const qtd = grupo ? grupo.children.length : 1;
 
-      const modelos = getModelos();
-      const modeloAtual = modelos[document.getElementById('modelo').value];
-      const campoInfo = modeloAtual.find(c => c.id === idCampo);
-
-      if (lbl && campoInfo) {
-        lbl.innerText = (qtd > 1 ? campoInfo.labelPlural : campoInfo.label) + ':';
+      if (lbl) {
+        if (idCampo === 'individuo') {
+          let algumMencao = false;
+          if (grupo) {
+            const btns = grupo.querySelectorAll('.btn-tipo-mencao');
+            btns.forEach(b => { if (b.dataset.modo === 'nick') algumMencao = true; });
+          }
+          if (algumMencao) {
+            lbl.innerText = (qtd > 1 ? 'Indivíduos (Menção)' : 'Indivíduo (Menção)') + ':';
+          } else {
+            lbl.innerText = (qtd > 1 ? 'Indivíduos (ID)' : 'Indivíduo (ID)') + ':';
+          }
+        } else {
+          const modelos = getModelos();
+          const modeloAtual = modelos[document.getElementById('modelo').value];
+          const campoInfo = modeloAtual.find(c => c.id === idCampo);
+          if (campoInfo) {
+            lbl.innerText = (qtd > 1 ? campoInfo.labelPlural : campoInfo.label) + ':';
+          }
+        }
       }
     }
 
     function getValoresMultiplos(idCampo) {
       const grupo = document.getElementById('grupo_' + idCampo);
-      if (!grupo) return [getVal(idCampo)];
+      if (!grupo) {
+        const val = getVal(idCampo).trim();
+        if (!val || val === '@') return ['N/A.'];
+        return [val];
+      }
 
       let valores = [];
       for (let i = 0; i < grupo.children.length; i++) {
-        const input = grupo.children[i].querySelector('input');
-        if (input && input.value.trim() !== '') {
+        const input = grupo.children[i].querySelector('input[type="text"]');
+        if (input && input.value.trim() !== '' && input.value.trim() !== '@') {
           valores.push(input.value.trim());
         }
       }
-      return valores;
+      return valores.length > 0 ? valores : ['N/A.'];
+    }
+
+    function getValoresPatentesMultiplas(idCampo) {
+      const grupo = document.getElementById('grupo_' + idCampo);
+      if (!grupo) return [getPatenteFormatada(idCampo)];
+
+      let resultados = [];
+      for (let i = 0; i < grupo.children.length; i++) {
+        const tagInput = document.getElementById(idCampo + '_tag_' + i);
+        const nomeInput = document.getElementById(idCampo + '_nome_' + i);
+
+        const tag = tagInput ? tagInput.value.trim() : '';
+        const nome = nomeInput ? nomeInput.value.trim() : '';
+
+        if (tag && nome) resultados.push(`[${tag}]${nome}.`);
+        else if (tag) resultados.push(`[${tag}].`);
+        else if (nome) resultados.push(`${nome}.`);
+      }
+      return resultados.length > 0 ? resultados : ['N/A.'];
     }
 
     function getValoresDiscordDuplo() {
@@ -1513,7 +2168,7 @@
         const opcional = document.getElementById('exilioDiscordOpcional_' + i);
 
         if (mencao || opcional) {
-          const mencaoVal = mencao ? mencao.value.trim() : '';
+          let mencaoVal = mencao ? mencao.value.trim() : '';
           const opcionalVal = opcional ? opcional.value.trim() : '';
 
           let formatado = '';
@@ -1538,7 +2193,6 @@
       function mostrar(termo, boxAlvo) {
         boxAlvo.innerHTML = '';
         const termoLower = termo.toLowerCase().trim();
-
         let listaBase = HIERARQUIA_PATENTES;
 
         if (document.getElementById('modelo').value === 'rebaixamento' && idCampo === 'novaFuncao') {
@@ -1560,10 +2214,7 @@
           p.nome.toLowerCase().includes(termoLower)
         );
 
-        if (filtradas.length === 0) {
-          boxAlvo.style.display = 'none';
-          return;
-        }
+        if (filtradas.length === 0) { boxAlvo.style.display = 'none'; return; }
 
         filtradas.forEach(p => {
           const div = document.createElement('div');
@@ -1579,32 +2230,15 @@
             boxNome.style.display = 'none';
             atualizarPreview();
           });
-
           boxAlvo.appendChild(div);
         });
-
         boxAlvo.style.display = 'block';
       }
 
-      tagInput.addEventListener('input', function() {
-        mostrar(this.value, boxTag);
-        boxNome.style.display = 'none';
-        atualizarPreview();
-      });
-
-      tagInput.addEventListener('focus', function() {
-        mostrar(this.value, boxTag);
-      });
-
-      nomeInput.addEventListener('input', function() {
-        mostrar(this.value, boxNome);
-        boxTag.style.display = 'none';
-        atualizarPreview();
-      });
-
-      nomeInput.addEventListener('focus', function() {
-        mostrar(this.value, boxNome);
-      });
+      tagInput.addEventListener('input', function() { mostrar(this.value, boxTag); boxNome.style.display = 'none'; atualizarPreview(); });
+      tagInput.addEventListener('focus', function() { mostrar(this.value, boxTag); });
+      nomeInput.addEventListener('input', function() { mostrar(this.value, boxNome); boxTag.style.display = 'none'; atualizarPreview(); });
+      nomeInput.addEventListener('focus', function() { mostrar(this.value, boxNome); });
 
       document.addEventListener('click', function(e) {
         if (!tagInput.contains(e.target) && !boxTag.contains(e.target)) boxTag.style.display = 'none';
@@ -1635,7 +2269,6 @@
       if (filtrados.length === 1) {
         return comCrases ? `\`${filtrados[0]}\`` : filtrados[0];
       }
-      
       return '\n' + filtrados.map(v => comCrases ? `\`${v}\`` : v).join('\n');
     }
 
@@ -1647,21 +2280,40 @@
     function montarTexto() {
       const tipo = document.getElementById('modelo').value;
       const dataHoraTag = getDataHoraFormatadaDiscord();
+      const respVal = getVal('responsavel').trim() || 'N/A.';
       
       if (tipo === 'advertencia') {
         const individuos = getValoresMultiplos('individuo');
         const nicks = getValoresMultiplos('nickRoblox');
         const ids = getValoresMultiplos('idRoblox');
 
+        const grupoInd = document.getElementById('grupo_individuo');
+        const qtdInd = grupoInd ? grupoInd.children.length : 1;
+
+        let blocoPessoas = '';
+
+        /* MÚLTIPLOS INDIVÍDUOS: FORMATO NORMAL E TRADICIONAL (SEM NUMERAÇÃO ORDINAL) */
+        if (qtdInd > 1) {
+          let blocos = [];
+          for (let i = 0; i < qtdInd; i++) {
+            const ind = individuos[i] || 'N/A.';
+            const nk = formatarComCrases(nicks[i]);
+            const idR = formatarComCrases(ids[i]);
+
+            blocos.push(`• | Indivíduo: ${ind}\n• | Nick do Roblox: ${nk}\n• | ID: ${idR}`);
+          }
+          blocoPessoas = blocos.join('\n\n');
+        } else {
+          blocoPessoas = `• | Indivíduo: ${individuos[0] || 'N/A.'}\n• | Nick do Roblox: ${formatarComCrases(nicks[0])}\n• | ID: ${formatarComCrases(ids[0])}`;
+        }
+
         return `**《 ADVERTÊNCIA 》
-• | Responsável: ${getVal('responsavel')}
+• | Responsável: ${respVal}
 • | Função: ${getVal('funcao')}
 ♤ ————————————— ♤
-• | ${individuos.length > 1 ? 'Indivíduos' : 'Indivíduo'}: ${formatarListaOuUnico(individuos)}
-• | ${nicks.length > 1 ? "Nick's do Roblox" : 'Nick do Roblox'}: ${formatarListaOuUnico(nicks, true)}
-• | ${ids.length > 1 ? "ID's" : 'ID'}: ${formatarListaOuUnico(ids, true)}
+${blocoPessoas}
 
-• | Motivo(s): ${getVal('motivo').trim()}
+• | Motivo(s): ${getVal('motivo').trim() || 'N/A.'}
 • | Observações: ${getVal('observacoes') || 'N/A.'}
 ♤ ——————————————— ♤
 • | Data/Hora: ${dataHoraTag}
@@ -1670,18 +2322,18 @@
       
       if (tipo === 'rebaixamento') {
         const individuos = getValoresMultiplos('individuo');
-        const nicks = getValoresMultiplos('nickRoblox');
-        const ids = getValoresMultiplos('idRoblox');
+        const nickR = getVal('nickRoblox');
+        const idR = getVal('idRoblox');
 
         return `**《 REBAIXAMENTO 》
-• | Responsável: ${getVal('responsavel')}
+• | Responsável: ${respVal}
 • | Função: ${getVal('funcao')}
 ♤ ————————————— ♤
-• | ${individuos.length > 1 ? 'Indivíduos' : 'Indivíduo'}: ${formatarListaOuUnico(individuos)}
-• | ${nicks.length > 1 ? "Nick's do Roblox" : 'Nick do Roblox'}: ${formatarListaOuUnico(nicks, true)}
-• | ${ids.length > 1 ? "ID's" : 'ID'}: ${formatarListaOuUnico(ids, true)}
+• | Indivíduo: ${individuos[0] || 'N/A.'}
+• | Nick do Roblox: ${formatarComCrases(nickR)}
+• | ID: ${formatarComCrases(idR)}
 
-• | Motivo(s): ${getVal('motivo').trim()}
+• | Motivo(s): ${getVal('motivo').trim() || 'N/A.'}
 • | Antiga Função: ${getPatenteFormatada('antigaFuncao')}
 • | Nova Função: ${getPatenteFormatada('novaFuncao')}
 
@@ -1702,58 +2354,77 @@
 
         return `**## :CGEx: SOLICITAÇÃO DE EXÍLIO :CGEx: 
 ———————————————
-• | Responsável: ${getVal('responsavel')}
+• | Responsável: ${respVal}
 • | Função: ${getVal('funcao')}
 ———————————————
-• | Solicitante: ${getVal('solicitante')}
+• | Solicitante: ${getVal('solicitante') || 'N/A.'}
 ———————————————
 • | ${nicksRoblox.length > 1 ? "Nick's Roblox" : "Nick Roblox"}: ${textoNicksRoblox}
 • | ${discords.length > 1 ? "Nick's Discord" : "Nick Discord"}: ${textoDiscords}
 • | ${idsDiscord.length > 1 ? "ID's Discord" : "Id Discord"}: ${textoIdsDiscord}
-• | Motivo: ${getVal('motivo').trim()}
+• | Motivo: ${getVal('motivo').trim() || 'N/A.'}
 ———————————————
 • | Data-Hora: ${dataHoraTag}
 • | Comprovações:**`;
       }
 
       if (tipo === 'revogacao') {
+        const nicksRevogados = getValoresMultiplos('nickRevogado');
+        const patentesPerdidas = getValoresPatentesMultiplas('patentePerdida');
+
+        const textoNicks = formatarListaOuUnico(nicksRevogados, true);
+        const textoPatentes = formatarListaOuUnico(patentesPerdidas, false);
+
+        const rotuloNick = nicksRevogados.length > 1 ? "Nick's dos indivíduos a serem revogados" : 'Nick do indivíduo a ser revogado';
+        const rotuloPatente = patentesPerdidas.length > 1 ? 'Patentes perdidas' : 'Patente perdida';
+
         return `**:CGEx: SOLICITAÇÃO DE REVOGAÇÃO :CGEx:
 —————————————————————
-👤・Responsável: ${getVal('responsavel')} 
+👤・Responsável: ${respVal} 
 
-:membros: ・Solicitante: ${getVal('solicitante')}
+:membros: ・Solicitante: ${getVal('solicitante') || 'N/A.'}
 
 :membro: ・Autorização: ${getVal('autorizacao') || 'N/A.'}
 
-🧾・Nick do indivíduo a ser revogado: ${formatarComCrases(getVal('nickRevogado'))}
+🧾・${rotuloNick}: ${textoNicks}
 
-🧾・Patente perdida: ${getPatenteFormatada('patentePerdida')}
+🧾・${rotuloPatente}: ${textoPatentes}
 
-:interrogao: Motivo: ${getVal('motivo').trim()}
+:interrogao: Motivo: ${getVal('motivo').trim() || 'N/A.'}
 
 📎 Comprovações:**`;
       }
 
       if (tipo === 'treino') {
+        const nicksAprovados = getValoresMultiplos('nickAprovado');
+        const patentesEntregar = getValoresPatentesMultiplas('patenteEntregue');
+
+        const textoAprovados = formatarListaOuUnico(nicksAprovados, true);
+        const textoPatentes = formatarListaOuUnico(patentesEntregar, false);
+
+        const rotuloAprovado = nicksAprovados.length > 1 ? "Nick's dos militares aprovados" : 'Nick do militar aprovado';
+        const rotuloPatente = patentesEntregar.length > 1 ? 'Patentes a serem entregues' : 'Patente a ser entregue';
+
         return `**:CGEx: RELATÓRIO - PATENTE DE TREINO - CGEX :CGEx:>
 
-👤 Responsável: ${getVal('responsavel')}
+👤 Responsável: ${respVal}
 
 🧾・Nick do Instrutor: ${formatarComCrases(getVal('nickInstrutor'))}
 
-🧾・Nick do militar aprovado: ${formatarComCrases(getVal('nickAprovado'))}
+🧾・${rotuloAprovado}: ${textoAprovados}
 
-🧾・Patente a ser entregue: ${getPatenteFormatada('patenteEntregue')}
+🧾・${rotuloPatente}: ${textoPatentes}
 
 📎・Comprovações/Justificativa: ${getVal('comprovacoes') || 'N/A.'}**`;
       }
 
       if (tipo === 'entregarPatente') {
+        const atendenteVal = getVal('atendente').trim() || 'N/A.';
         return `**:CGEx: ENTREGAR PATENTE :CGEx:**
 ————————————————————
-👤**・Atendente: ${getVal('atendente')}
+👤**・Atendente: ${atendenteVal}
 
-:membros:・Solicitante: ${getVal('solicitante')}
+:membros:・Solicitante: ${getVal('solicitante') || 'N/A.'}
 
 :membro:・Autorização: ${getVal('autorizacao') || 'N/A.'}
 
@@ -1772,12 +2443,16 @@
       if (prev) prev.innerText = montarTexto();
     }
 
+    function limparFormularioAposCopiar() {
+      carregarFormulario();
+    }
+
     function gerarEcopiar() {
       const tipo = document.getElementById('modelo').value;
       const motivoEl = document.getElementById('motivo');
 
       if (motivoEl && !motivoEl.value.trim()) {
-        mostrarToast('❗️ Preencha o campo Motivo!');
+        mostrarToast('⚠️ Preencha o campo Motivo!');
         motivoEl.focus();
         return;
       }
@@ -1786,6 +2461,7 @@
 
       navigator.clipboard.writeText(texto).then(() => {
         mostrarToast('Relatório copiado com sucesso!');
+        limparFormularioAposCopiar();
       }).catch(err => {
         mostrarToast('Erro ao copiar relatório.');
       });
