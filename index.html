@@ -19,9 +19,7 @@
       --border: #22222a;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -36,7 +34,6 @@
       overflow-x: hidden;
     }
 
-    /* FUNDO COM BLURS GRANDES, SUAVES E MOVIMENTO EXTREMAMENTE LENTO (2D) */
     body::before {
       content: '';
       position: fixed;
@@ -253,7 +250,6 @@
       font-weight: 600;
     }
 
-    /* ESTRUTURA DO TIMESTAMP */
     .timestamp-container {
       display: flex;
       gap: 8px;
@@ -311,10 +307,7 @@
       margin-top: 6px;
     }
 
-    .patente-wrapper {
-      position: relative;
-    }
-
+    .patente-wrapper { position: relative; }
     .patente-wrapper.tag-wrap { width: 35%; }
     .patente-wrapper.nome-wrap { width: 65%; }
 
@@ -365,7 +358,6 @@
       text-shadow: 0 0 8px rgba(211, 47, 47, 0.8);
     }
 
-    /* ESTILO COMPACTO DA CAIXINHA DE MENÇÃO */
     .mencao-input-wrapper {
       display: flex;
       gap: 6px;
@@ -553,9 +545,7 @@
       margin-bottom: 6px;
     }
 
-    .preview-card:hover {
-      border-color: rgba(211, 47, 47, 0.3);
-    }
+    .preview-card:hover { border-color: rgba(211, 47, 47, 0.3); }
 
     .ticket-section-card {
       background-color: rgba(18, 18, 21, 0.7);
@@ -566,9 +556,7 @@
       transition: border-color 0.25s ease;
     }
 
-    .ticket-section-card:hover {
-      border-color: rgba(211, 47, 47, 0.4);
-    }
+    .ticket-section-card:hover { border-color: rgba(211, 47, 47, 0.4); }
 
     .ticket-title {
       font-family: 'Cinzel', serif;
@@ -654,10 +642,7 @@
 
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background-color: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(5px);
       z-index: 20000;
@@ -670,10 +655,7 @@
       transition: all 0.25s ease;
     }
 
-    .modal-overlay.ativo {
-      opacity: 1;
-      visibility: visible;
-    }
+    .modal-overlay.ativo { opacity: 1; visibility: visible; }
 
     .modal-container {
       background-color: #111115;
@@ -686,13 +668,11 @@
       flex-direction: column;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
       transform: translateY(15px) scale(0.97);
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       overflow: hidden;
     }
 
-    .modal-overlay.ativo .modal-container {
-      transform: translateY(0) scale(1);
-    }
+    .modal-overlay.ativo .modal-container { transform: translateY(0) scale(1); }
 
     .modal-header {
       padding: 14px 18px;
@@ -768,15 +748,9 @@
       align-items: flex-start;
     }
 
-    .tab-slider-wrapper.slide-comandos {
-      transform: translateX(-50%);
-    }
+    .tab-slider-wrapper.slide-comandos { transform: translateX(-50%); }
 
-    .modal-tab-content {
-      width: 50%;
-      padding: 18px;
-      box-sizing: border-box;
-    }
+    .modal-tab-content { width: 50%; padding: 18px; box-sizing: border-box; }
 
     .modal-body h3 {
       font-family: 'Cinzel', serif;
@@ -802,10 +776,7 @@
       border-radius: 0 6px 6px 0;
     }
 
-    .destaque-nome {
-      color: var(--accent-red);
-      font-weight: 700;
-    }
+    .destaque-nome { color: var(--accent-red); font-weight: 700; }
 
     footer {
       text-align: center;
@@ -823,19 +794,13 @@
       font-weight: 600;
     }
 
-    .footer-author {
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      opacity: 0.75;
-    }
+    .footer-author { font-size: 0.75rem; letter-spacing: 1px; opacity: 0.75; }
   </style>
 </head>
 <body>
 
-  <!-- ELEMENTO DO TOAST -->
   <div id="toast-notificacao">Relatório copiado com sucesso!</div>
 
-  <!-- MODAL DE REGRAS E COMANDOS -->
   <div class="modal-overlay" id="modalRegras">
     <div class="modal-container">
       <div class="modal-header">
@@ -848,7 +813,6 @@
       </div>
       <div class="modal-body" id="modalBodyScroll">
         <div class="tab-slider-wrapper" id="sliderWrapper">
-          <!-- ABA 1: CRITÉRIOS DE PUNIÇÃO -->
           <div class="modal-tab-content">
             <h3>◈ ADVERTÊNCIA</h3>
             <ul>
@@ -859,7 +823,7 @@
               <li>Abate de civis sem justificativa.</li>
               <li>Uso de fardamento incorreto.</li>
               <li>Uso de exploits.</li>
-              <li>Abuso de comando .sit (abuso de bugs que quebram o RP no EB).</li>
+              <li>Abuso de comando .sit.</li>
               <li>Ausência fora de área AFK.</li>
               <li>Música inapropriada dentro do quartel.</li>
               <li>Prisão de forma abusiva.</li>
@@ -876,7 +840,7 @@
             <h3>◈ REBAIXAMENTO (Limite de 4 rebaixamentos)</h3>
             <ul>
               <li>Omissão ao entregar a patente do aprovado após 6h. <strong>(2 rebaixamentos)</strong></li>
-              <li>Rebaixamento não autorizado pela CGEx <strong>(2 rebaixamentos)</strong> +1 por pessoa rebaixada.</li>
+              <li>Rebaixamento não autorizado pela CGEx <strong>(2 rebaixamentos)</strong> +1 por pessoa.</li>
               <li>Aplicar treinamento incorretamente. <strong>(1 rebaixamento)</strong></li>
               <li>Aplicar recrutamento de forma errada. <strong>(1 rebaixamento)</strong></li>
               <li>Uso de comandos proibidos. <strong>(1 rebaixamento)</strong></li>
@@ -884,7 +848,7 @@
               <li>Free patente. <strong>(3 rebaixamentos)</strong></li>
               <li>Free rank em excesso. <strong>(Rebaixamento para Recruta + Exílio)</strong></li>
               <li>Reincidência no uso de exploits pós advertência. <strong>(1 rebaixamento)</strong></li>
-              <li>Descumprimento de ordens da CGEx para comparência em call/ticket. <strong>(1 rebaixamento)</strong></li>
+              <li>Descumprimento de ordens da CGEx. <strong>(1 rebaixamento)</strong></li>
               <li>Divulgação de script. <strong>(2 rebaixamentos)</strong></li>
               <li>Script para vantagem em treino físico. <strong>(2 rebaixamentos)</strong></li>
               <li>Uso de executor para farm, voar ou gestos +18. <strong>(1 rebaixamento cada)</strong></li>
@@ -914,46 +878,26 @@
 
             <h3>◈ REVOGAÇÃO</h3>
             <blockquote>
-              Aplicável exclusivamente nos casos em que o militar tenha sido rebaixado sem a devida documentação, relatório formal ou quando tenha ocorrido uma promoção indevida por erro. Antes da aplicação da medida, deverá ser verificado se a ação não foi realizada por terceiros responsáveis, como o <span class="destaque-nome">Delta</span>, <span class="destaque-nome">GengarMelhorPoke</span>, <span class="destaque-nome">Departamento de Exílios</span> ou <span class="destaque-nome">Poder Judiciário</span>.
+              Aplicável exclusivamente nos casos em que o militar tenha sido rebaixado sem a devida documentação, relatório formal ou promoção indevida por erro.
             </blockquote>
           </div>
 
-          <!-- ABA 2: COMANDOS PROIBIDOS -->
           <div class="modal-tab-content">
             <p style="color: #ffaaaa; font-size: 0.78rem; margin-top: 0;">
               <strong>Atenção:</strong> O uso indevido dos comandos abaixo pode resultar em punições disciplinares.
             </p>
-
             <h3>▸ DISFARÇAR</h3>
             <p>● Terminentemente proibido para todos!</p>
-
             <h3>▸ TITLE / COUNTDOWN / HipHeight</h3>
             <p>● Expressamente proibidos em servidores públicos.</p>
-
             <h3>▸ CMDBAR2</h3>
             <p>● Proibido. Autorizados apenas: Corregedor+ da SGEx e Sub Criadores.</p>
-
             <h3>▸ CHAR</h3>
-            <ul>
-              <li>Autorizado para: Gamepass (Elite, Vice e Light Club) e Aspirantes+ (apenas de cunho militar).</li>
-              <li>Conteúdo NSFW/gore totalmente proibido.</li>
-              <li>Considerado comando proibido quando utilizado em terceiros ou quebrando regras da comunidade.</li>
-            </ul>
-
-            <h3>▸ KICK</h3>
-            <p>● Proibido em servidores públicos. Autorizado apenas para membros da CGEx com finalidade estritamente administrativa.</p>
-
-            <h3>▸ INVISIBLE</h3>
-            <p>● Proibido. Autorizados apenas: Coordenadores+ da CGEx (fins administrativos), Vice Presidentes, Presidente, Sócios e Sub Criadores.</p>
-
-            <h3>▸ REFRESH (ref) / RESPAWN (res)</h3>
-            <p>● Proibido utilizar em desconhecidos. Utilize apenas em si mesmo e com moderação.</p>
-
-            <h3>▸ KILL / EXPLOD / PUNISH / ICE / BUBBLECHAT / CLONE / H / M / SM</h3>
-            <p>● Completamente proibidos em servidores públicos.</p>
-
-            <h3>▸ TO</h3>
-            <p>● Proibido utilizar :to em pessoas que não autorizaram ou desconhecidas.</p>
+            <p>● Autorizado para Gamepass e Aspirantes+ (cunho militar).</p>
+            <h3>▸ KICK / INVISIBLE</h3>
+            <p>● Uso estritamente restrito a cargos autorizados.</p>
+            <h3>▸ REFRESH / RESPAWN / KILL / EXPLOD</h3>
+            <p>● Proibidos em servidores públicos.</p>
           </div>
         </div>
       </div>
@@ -989,7 +933,6 @@
 
     <div id="campos-dinamicos"></div>
 
-    <!-- SEÇÃO PADRÃO PARA MODELOS COMUNS -->
     <div id="secao-padrao-acoes">
       <button class="btn" onclick="gerarEcopiar()">Copiar Relatório</button>
 
@@ -1041,34 +984,25 @@
       advertencia: [
         "Má conduta.", "Falta de gramática.", "Pedir free / treino.", "Abreviação de palavras / gírias.",
         "Abate de civis sem justificativa.", "Uso de fardamento incorreto.", "Uso de exploits.",
-        "Abuso de comando .sit (abuso de bugs que quebram o role play no EB).", "Ausência fora de área AFK.",
-        "Música inapropriada dentro do quartel.", "Prisão de forma abusiva.", "Atrapalhar o trabalho da CGEx.",
-        "Abuso de poder.", "Mencionar outro EB de forma sugestiva para angariar usuários.",
+        "Abuso de comando .sit.", "Ausência fora de área AFK.", "Música inapropriada dentro do quartel.",
+        "Prisão de forma abusiva.", "Atrapalhar o trabalho da CGEx.", "Abuso de poder.",
+        "Mencionar outro EB de forma sugestiva para angariar usuários.",
         "Reincidência a punição anterior de exílio (2 advertências).", "Ícone do executor na tela.",
         "Assédio.", "Discurso de ódio (de grau leve).", "Uso de algema para quebrar o RP."
       ],
       rebaixamento: [
         "Omissão ao entregar a patente do aprovado após seis horas do treino. (2 rebaixamentos)",
-        "Rebaixamento não autorizado pela CGEx (2 rebaixamentos), +1 rebaixamento para cada pessoa que ele rebaixou.",
+        "Rebaixamento não autorizado pela CGEx (2 rebaixamentos).",
         "Aplicar treinamento incorretamente. (1 rebaixamento)", "Aplicar recrutamento de forma errada. (1 rebaixamento)",
         "Uso de comandos proibidos. (1 rebaixamento)", "Acúmulo de 3 advertências. (1 rebaixamento)",
-        "Free patente. (3 rebaixamentos)", "Free rank em excesso. (rebaixamento para recruta + exílio)",
-        "Reincidência no uso de exploits mesmo após advertência. (1 rebaixamento)",
-        "Descumprimento de ordens da CGEx para comparecimento em call de suporte / ticket (3 chamados +). (1 rebaixamento)",
-        "Divulgação de script. (2 rebaixamentos)", "Script para obter vantagem em treinamento físico. (2 rebaixamentos)",
-        "Uso de executor para farm. (1 rebaixamento)", "Uso de executor para voar. (1 rebaixamento)",
-        "Uso de executor para gestos +18. (1 rebaixamento)", "Divulgação de família ou divisão não oficial em chats do EB. (2 rebaixamentos)",
-        "Discurso de ódio (de grau médio). (1 rebaixamento)"
+        "Free patente. (3 rebaixamentos)", "Free rank em excesso.", "Reincidência no uso de exploits.",
+        "Divulgação de script. (2 rebaixamentos)", "Script para vantagem em treino físico. (2 rebaixamentos)"
       ],
       exilio: [
         "Uso de scripts para obter vantagens ou prejudicar militares.", "Abuso de bugs (bug exploit).",
         "Difamação à nossa instituição.", "Participar de ambientes que conspiram contra o EB.", "Fraude / golpe.", "RAID.",
         "Conteúdo discriminatório / discurso de ódio.", "Conteúdo pornográfico / gore.", "Divulgação de outro EB.",
-        "Participar de outro EB com envolvimento no desenvolvimento dele.", "Reincidência de punições anteriores mesmo após avisos.",
-        "Descumprimento de ordens da Administração Geral / Alto Escalão da Corregedoria (dependendo do caso).",
-        "Estar em servidores que conspiram contra o Delta, Gengar ou a Administração do Exército.", "Free patente com +15 promoções.",
-        "Difamação contra o Delta/Gengar.", "Divulgação de servidores não oficiais em chats do EB.",
-        "Discurso de ódio (de grau grave).", "Divulgação de casa de apostas.", "Char de apologia."
+        "Reincidência de punições anteriores mesmo após avisos."
       ],
       entregarPatente: [ "Saiu da comunidade no Roblox." ]
     };
@@ -1115,7 +1049,6 @@
 
     function getUnixNow() { return Math.floor(Date.now() / 1000); }
 
-    /* FORMATAR COM CRASES: RETORNA LIMPO SE N/A. OU VAZIO (SEM `` DUPLAS VAZIAS) */
     function formatarComCrases(valor, comCrases = true) {
       const v = valor ? valor.trim() : '';
       if (!v || v === 'N/A.') return 'N/A.';
@@ -1162,7 +1095,6 @@
       atualizarPreview();
     }, 1000);
 
-    /* RESPONSÁVEIS AGORA VÊM EM BRANCO DE FORMA PADRÃO */
     function getModelos() {
       return {
         advertencia: [
@@ -1519,12 +1451,11 @@
           mencaoWrapper.className = 'mencao-input-wrapper';
           mencaoWrapper.style.flex = '1';
 
-          /* BOTAO DE MENCAO AGORA PADRÃO EM @ */
           const btnTipo = document.createElement('button');
           btnTipo.type = 'button';
-          btnTipo.className = 'btn-tipo-mencao ativo-mencao';
-          btnTipo.innerText = '@';
-          btnTipo.dataset.modo = 'nick';
+          btnTipo.className = 'btn-tipo-mencao';
+          btnTipo.innerText = '<@>';
+          btnTipo.dataset.modo = 'id';
 
           const wrapperInput = document.createElement('div');
           wrapperInput.className = 'patente-dupla-container';
@@ -1533,8 +1464,7 @@
           const mencaoInput = document.createElement('input');
           mencaoInput.type = 'text';
           mencaoInput.id = 'exilioDiscordMencao_0';
-          mencaoInput.placeholder = '@ Nome de usuário...';
-          mencaoInput.value = '@';
+          mencaoInput.placeholder = 'Digite o ID...';
           mencaoInput.className = 'tag-input';
 
           btnTipo.onclick = function() {
@@ -1546,16 +1476,18 @@
               mencaoInput.placeholder = '@ Nome de usuário...';
             } else {
               this.dataset.modo = 'id';
-              this.innerText = '@';
+              this.innerText = '<@>';
               this.classList.remove('ativo-mencao');
-              mencaoInput.value = '@';
-              mencaoInput.placeholder = '@ Nome de usuário...';
+              mencaoInput.value = '';
+              mencaoInput.placeholder = 'Digite o ID...';
             }
             atualizarPreview();
           };
 
           mencaoInput.addEventListener('input', function() {
-            if (!this.value.startsWith('@')) {
+            if (btnTipo.dataset.modo === 'id') {
+              this.value = this.value.replace(/\D/g, '');
+            } else if (!this.value.startsWith('@')) {
               this.value = '@' + this.value.replace(/@/g, '');
             }
             atualizarPreview();
@@ -1630,18 +1562,18 @@
           mencaoWrapper.className = 'mencao-input-wrapper';
 
           if (campo.isAt) {
-            /* MENSÃO PADRÃO EM @ */
+            /* CAIXINHA DESLIGADA POR PADRÃO (<@>) */
             const btnTipo = document.createElement('button');
             btnTipo.type = 'button';
-            btnTipo.className = 'btn-tipo-mencao ativo-mencao';
-            btnTipo.innerText = '@';
-            btnTipo.dataset.modo = 'nick';
+            btnTipo.className = 'btn-tipo-mencao';
+            btnTipo.innerText = '<@>';
+            btnTipo.dataset.modo = 'id';
 
             const input1 = document.createElement('input');
             input1.type = 'text';
             input1.id = campo.id + '_0';
-            input1.value = '@';
-            input1.placeholder = '@ Nome de usuário...';
+            input1.value = '';
+            input1.placeholder = 'Digite o ID...';
 
             btnTipo.onclick = function() {
               if (this.dataset.modo === 'id') {
@@ -1652,24 +1584,28 @@
                 input1.placeholder = '@ Nome de usuário...';
               } else {
                 this.dataset.modo = 'id';
-                this.innerText = '@';
+                this.innerText = '<@>';
                 this.classList.remove('ativo-mencao');
-                input1.value = '@';
-                input1.placeholder = '@ Nome de usuário...';
+                input1.value = '';
+                input1.placeholder = 'Digite o ID...';
               }
               atualizarRotulo(campo.id);
               atualizarPreview();
             };
 
             input1.addEventListener('keydown', function(e) {
-              if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
+              if (btnTipo.dataset.modo === 'nick' && (e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
                 e.preventDefault();
               }
             });
 
             input1.addEventListener('input', function() {
-              if (!this.value.startsWith('@')) {
-                this.value = '@' + this.value.replace(/@/g, '');
+              if (btnTipo.dataset.modo === 'nick') {
+                if (!this.value.startsWith('@')) {
+                  this.value = '@' + this.value.replace(/@/g, '');
+                }
+              } else {
+                this.value = this.value.replace(/\D/g, '');
               }
               atualizarPreview();
             });
@@ -1726,15 +1662,15 @@
 
           const btnTipo = document.createElement('button');
           btnTipo.type = 'button';
-          btnTipo.className = 'btn-tipo-mencao ativo-mencao';
-          btnTipo.innerText = '@';
-          btnTipo.dataset.modo = 'nick';
+          btnTipo.className = 'btn-tipo-mencao';
+          btnTipo.innerText = '<@>';
+          btnTipo.dataset.modo = 'id';
 
           const input = document.createElement('input');
           input.type = 'text';
           input.id = campo.id;
-          input.value = '@';
-          input.placeholder = '@ Nome de usuário...';
+          input.value = '';
+          input.placeholder = 'Digite o ID...';
 
           btnTipo.onclick = function() {
             if (this.dataset.modo === 'id') {
@@ -1745,16 +1681,18 @@
               input.placeholder = '@ Nome de usuário...';
             } else {
               this.dataset.modo = 'id';
-              this.innerText = '@';
+              this.innerText = '<@>';
               this.classList.remove('ativo-mencao');
-              input.value = '@';
-              input.placeholder = '@ Nome de usuário...';
+              input.value = '';
+              input.placeholder = 'Digite o ID...';
             }
             atualizarPreview();
           };
 
           input.addEventListener('input', function() {
-            if (!this.value.startsWith('@')) {
+            if (btnTipo.dataset.modo === 'id') {
+              this.value = this.value.replace(/\D/g, '');
+            } else if (!this.value.startsWith('@')) {
               this.value = '@' + this.value.replace(/@/g, '');
             }
             atualizarPreview();
@@ -1932,9 +1870,9 @@
 
       const btnTipo = document.createElement('button');
       btnTipo.type = 'button';
-      btnTipo.className = 'btn-tipo-mencao ativo-mencao';
-      btnTipo.innerText = '@';
-      btnTipo.dataset.modo = 'nick';
+      btnTipo.className = 'btn-tipo-mencao';
+      btnTipo.innerText = '<@>';
+      btnTipo.dataset.modo = 'id';
 
       const wrapperInput = document.createElement('div');
       wrapperInput.className = 'patente-dupla-container';
@@ -1943,8 +1881,7 @@
       const mencaoInput = document.createElement('input');
       mencaoInput.type = 'text';
       mencaoInput.id = 'exilioDiscordMencao_' + novoIndex;
-      mencaoInput.value = '@';
-      mencaoInput.placeholder = '@ Nome de usuário...';
+      mencaoInput.placeholder = 'Digite o ID...';
       mencaoInput.className = 'tag-input';
 
       btnTipo.onclick = function() {
@@ -1956,16 +1893,18 @@
           mencaoInput.placeholder = '@ Nome de usuário...';
         } else {
           this.dataset.modo = 'id';
-          this.innerText = '@';
+          this.innerText = '<@>';
           this.classList.remove('ativo-mencao');
-          mencaoInput.value = '@';
-          mencaoInput.placeholder = '@ Nome de usuário...';
+          mencaoInput.value = '';
+          mencaoInput.placeholder = 'Digite o ID...';
         }
         atualizarPreview();
       };
 
       mencaoInput.addEventListener('input', function() {
-        if (!this.value.startsWith('@')) {
+        if (btnTipo.dataset.modo === 'id') {
+          this.value = this.value.replace(/\D/g, '');
+        } else if (!this.value.startsWith('@')) {
           this.value = '@' + this.value.replace(/@/g, '');
         }
         atualizarPreview();
@@ -2022,12 +1961,12 @@
       if (isAt) {
         const btnTipo = document.createElement('button');
         btnTipo.type = 'button';
-        btnTipo.className = 'btn-tipo-mencao ativo-mencao';
-        btnTipo.innerText = '@';
-        btnTipo.dataset.modo = 'nick';
+        btnTipo.className = 'btn-tipo-mencao';
+        btnTipo.innerText = '<@>';
+        btnTipo.dataset.modo = 'id';
 
-        input.value = '@';
-        input.placeholder = '@ Nome de usuário...';
+        input.value = '';
+        input.placeholder = 'Digite o ID...';
 
         btnTipo.onclick = function() {
           if (this.dataset.modo === 'id') {
@@ -2038,24 +1977,28 @@
             input.placeholder = '@ Nome de usuário...';
           } else {
             this.dataset.modo = 'id';
-            this.innerText = '@';
+            this.innerText = '<@>';
             this.classList.remove('ativo-mencao');
-            input.value = '@';
-            input.placeholder = '@ Nome de usuário...';
+            input.value = '';
+            input.placeholder = 'Digite o ID...';
           }
           atualizarRotulo(idCampo);
           atualizarPreview();
         };
 
         input.addEventListener('keydown', function(e) {
-          if ((e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
+          if (btnTipo.dataset.modo === 'nick' && (e.key === 'Backspace' || e.key === 'Delete') && this.value === '@') {
             e.preventDefault();
           }
         });
 
         input.addEventListener('input', function() {
-          if (!this.value.startsWith('@')) {
-            this.value = '@' + this.value.replace(/@/g, '');
+          if (btnTipo.dataset.modo === 'nick') {
+            if (!this.value.startsWith('@')) {
+              this.value = '@' + this.value.replace(/@/g, '');
+            }
+          } else {
+            this.value = this.value.replace(/\D/g, '');
           }
           atualizarPreview();
         });
@@ -2121,19 +2064,34 @@
       }
     }
 
-    function getValoresMultiplos(idCampo) {
+    /* CORREÇÃO PARA FORMATAR ID COM <@ID> QUANDO DIGITADO E N/A. QUANDO VAZIO */
+    function getValoresMultiplosComMencao(idCampo) {
       const grupo = document.getElementById('grupo_' + idCampo);
       if (!grupo) {
+        const el = document.getElementById(idCampo);
+        const parentWrap = el ? el.closest('.mencao-input-wrapper') : null;
+        const btnTipo = parentWrap ? parentWrap.querySelector('.btn-tipo-mencao') : null;
         const val = getVal(idCampo).trim();
+
         if (!val || val === '@') return ['N/A.'];
+        if (btnTipo && btnTipo.dataset.modo === 'id') {
+          return [`<@${val}>`];
+        }
         return [val];
       }
 
       let valores = [];
       for (let i = 0; i < grupo.children.length; i++) {
         const input = grupo.children[i].querySelector('input[type="text"]');
+        const btnTipo = grupo.children[i].querySelector('.btn-tipo-mencao');
+
         if (input && input.value.trim() !== '' && input.value.trim() !== '@') {
-          valores.push(input.value.trim());
+          const val = input.value.trim();
+          if (btnTipo && btnTipo.dataset.modo === 'id') {
+            valores.push(`<@${val}>`);
+          } else {
+            valores.push(val);
+          }
         }
       }
       return valores.length > 0 ? valores : ['N/A.'];
@@ -2166,10 +2124,15 @@
       for (let i = 0; i < grupo.children.length; i++) {
         const mencao = document.getElementById('exilioDiscordMencao_' + i);
         const opcional = document.getElementById('exilioDiscordOpcional_' + i);
+        const btnTipo = grupo.children[i].querySelector('.btn-tipo-mencao');
 
         if (mencao || opcional) {
           let mencaoVal = mencao ? mencao.value.trim() : '';
           const opcionalVal = opcional ? opcional.value.trim() : '';
+
+          if (btnTipo && btnTipo.dataset.modo === 'id' && mencaoVal !== '') {
+            mencaoVal = `<@${mencaoVal}>`;
+          }
 
           let formatado = '';
           const mencaoValida = mencaoVal !== '' && mencaoVal !== '@';
@@ -2283,16 +2246,15 @@
       const respVal = getVal('responsavel').trim() || 'N/A.';
       
       if (tipo === 'advertencia') {
-        const individuos = getValoresMultiplos('individuo');
-        const nicks = getValoresMultiplos('nickRoblox');
-        const ids = getValoresMultiplos('idRoblox');
+        const individuos = getValoresMultiplosComMencao('individuo');
+        const nicks = getValoresMultiplosComMencao('nickRoblox');
+        const ids = getValoresMultiplosComMencao('idRoblox');
 
         const grupoInd = document.getElementById('grupo_individuo');
         const qtdInd = grupoInd ? grupoInd.children.length : 1;
 
         let blocoPessoas = '';
 
-        /* MÚLTIPLOS INDIVÍDUOS: FORMATO NORMAL E TRADICIONAL (SEM NUMERAÇÃO ORDINAL) */
         if (qtdInd > 1) {
           let blocos = [];
           for (let i = 0; i < qtdInd; i++) {
@@ -2321,7 +2283,7 @@ ${blocoPessoas}
       }
       
       if (tipo === 'rebaixamento') {
-        const individuos = getValoresMultiplos('individuo');
+        const individuos = getValoresMultiplosComMencao('individuo');
         const nickR = getVal('nickRoblox');
         const idR = getVal('idRoblox');
 
@@ -2344,9 +2306,9 @@ ${blocoPessoas}
       }
 
       if (tipo === 'exilio') {
-        const nicksRoblox = getValoresMultiplos('nickRoblox');
+        const nicksRoblox = getValoresMultiplosComMencao('nickRoblox');
         const discords = getValoresDiscordDuplo();
-        const idsDiscord = getValoresMultiplos('idDiscord');
+        const idsDiscord = getValoresMultiplosComMencao('idDiscord');
 
         const textoNicksRoblox = formatarListaOuUnico(nicksRoblox, true);
         const textoDiscords = discords.length > 1 ? '\n' + discords.join('\n') : (discords[0] || 'N/A.');
@@ -2369,7 +2331,7 @@ ${blocoPessoas}
       }
 
       if (tipo === 'revogacao') {
-        const nicksRevogados = getValoresMultiplos('nickRevogado');
+        const nicksRevogados = getValoresMultiplosComMencao('nickRevogado');
         const patentesPerdidas = getValoresPatentesMultiplas('patentePerdida');
 
         const textoNicks = formatarListaOuUnico(nicksRevogados, true);
@@ -2396,7 +2358,7 @@ ${blocoPessoas}
       }
 
       if (tipo === 'treino') {
-        const nicksAprovados = getValoresMultiplos('nickAprovado');
+        const nicksAprovados = getValoresMultiplosComMencao('nickAprovado');
         const patentesEntregar = getValoresPatentesMultiplas('patenteEntregue');
 
         const textoAprovados = formatarListaOuUnico(nicksAprovados, true);
